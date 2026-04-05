@@ -6,11 +6,13 @@ export type SessionItemProps = {
   session: GatewaySessionRow;
   isActive: boolean;
   onSelect: (key: string) => void;
+  onRename?: (key: string, newName: string) => Promise<void>;
+  onDelete?: (key: string) => Promise<void>;
   basePath?: string;
 };
 
 export function renderSessionItem(props: SessionItemProps): TemplateResult {
-  const { session, isActive, onSelect } = props;
+  const { session, isActive, onSelect, onRename, onDelete } = props;
   const used = session.totalTokens ?? 0;
   const limit = session.contextTokens ?? 0;
   const pct = limit > 0 ? Math.min(Math.round((used / limit) * 100), 100) : 0;
@@ -19,6 +21,7 @@ export function renderSessionItem(props: SessionItemProps): TemplateResult {
   const contextWidth = `${Math.max(pct, 5)}%`;
 
   const displayName = session.displayName ?? session.label ?? session.key ?? "Session";
+
   const updatedAt = session.updatedAt ? formatRelativeTime(session.updatedAt) : "Unknown";
 
   return html`
@@ -32,7 +35,7 @@ export function renderSessionItem(props: SessionItemProps): TemplateResult {
     >
       <div class="session-sidebar-item__icon">${isActive ? icons.check : icons.circle}</div>
       <div class="session-sidebar-item__content">
-        <div class="session-sidebar-item__name">${displayName}</div>
+        <div class="session-sidebar-item__name" data-session-key=${session.key}>${displayName}</div>
         <div class="session-sidebar-item__meta">
           <span class="session-sidebar-item__updated">${updatedAt}</span>
           ${session.model
@@ -46,6 +49,50 @@ export function renderSessionItem(props: SessionItemProps): TemplateResult {
           style="width: ${contextWidth}; background: ${contextColor}"
         ></div>
       </div>
+      ${onRename || onDelete
+        ? html`
+            <div class="session-sidebar-item__actions">
+              ${onRename
+                ? html`
+                    <button
+                      class="session-sidebar-item__action-btn"
+                      type="button"
+                      title="Rename session"
+                      @click=${async (e: Event) => {
+                        e.stopPropagation();
+                        const newName = prompt("Rename session:", displayName);
+                        if (newName !== null && newName.trim() !== displayName) {
+                          await onRename(session.key, newName.trim());
+                        }
+                      }}
+                    >
+                      ${icons.edit}
+                    </button>
+                  `
+                : nothing}
+              ${onDelete
+                ? html`
+                    <button
+                      class="session-sidebar-item__action-btn session-sidebar-item__action-btn--delete"
+                      type="button"
+                      title="Delete session"
+                      @click=${async (e: Event) => {
+                        e.stopPropagation();
+                        const confirmed = confirm(
+                          `Delete session "${displayName}"?\n\nThis will archive the transcript and cannot be undone.`,
+                        );
+                        if (confirmed) {
+                          await onDelete(session.key);
+                        }
+                      }}
+                    >
+                      ${icons.trash}
+                    </button>
+                  `
+                : nothing}
+            </div>
+          `
+        : nothing}
     </button>
   `;
 }

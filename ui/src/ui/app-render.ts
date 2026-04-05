@@ -1,9 +1,4 @@
 import { html, nothing } from "lit";
-import {
-  buildAgentMainSessionKey,
-  parseAgentSessionKey,
-  resolveAgentIdFromSessionKey,
-} from "./session-key.ts";
 import { t } from "../i18n/index.ts";
 import { getSafeLocalStorage } from "../local-storage.ts";
 import { refreshChatAvatar } from "./app-chat.ts";
@@ -91,10 +86,15 @@ import {
   updateSkillEdit,
   updateSkillEnabled,
 } from "./controllers/skills.ts";
-import "./components/dashboard-header.ts";
 import { buildExternalLinkRel, EXTERNAL_LINK_TARGET } from "./external-link.ts";
+import "./components/dashboard-header.ts";
 import { icons } from "./icons.ts";
 import { normalizeBasePath, TAB_GROUPS, subtitleForTab, titleForTab } from "./navigation.ts";
+import {
+  buildAgentMainSessionKey,
+  parseAgentSessionKey,
+  resolveAgentIdFromSessionKey,
+} from "./session-key.ts";
 import { agentLogoUrl } from "./views/agents-utils.ts";
 import {
   resolveAgentConfig,
@@ -1547,8 +1547,15 @@ export function renderApp(state: AppViewState) {
               // Session sidebar props
               sessionSidebarOpen: state.sessionSidebarOpen,
               sessionSidebarOnClose: () => state.handleCloseSessionSidebar(),
-              sessionSidebarOnSessionSelect: (key: string) => state.handleSessionSelectFromSidebar(key),
+              sessionSidebarOnSessionSelect: (key: string) =>
+                state.handleSessionSelectFromSidebar(key),
               sessionSidebarOnNewSession: () => state.handleNewSessionFromSidebar(),
+              sessionSidebarOnSearchChange: (query: string) =>
+                state.handleSessionSearchChange(query),
+              sessionSidebarOnRename: (key: string, newName: string) =>
+                state.handleSessionRename(key, newName),
+              sessionSidebarOnDelete: (key: string) => state.handleSessionDelete(key),
+              sessionSearchQuery: state.sessionsSearchQuery,
               sessionSidebarLoading: state.sessionsLoading,
               sessionSidebarOnOpen: () => state.handleOpenSessionSidebar(),
               assistantName: state.assistantName,

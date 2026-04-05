@@ -452,6 +452,12 @@ export const icons = {
       <path d="M10 10l-3 2 3 2" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   `,
+  reply: html`
+    <svg viewBox="0 0 24 24">
+      <polyline points="9 17 4 12 9 7" />
+      <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
+    </svg>
+  `,
   maximize: html`
     <svg viewBox="0 0 24 24">
       <polyline points="15 3 21 3 21 9" />

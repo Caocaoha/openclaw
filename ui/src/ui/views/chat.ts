@@ -101,6 +101,9 @@ export type ChatProps = {
   sessionSidebarOnClose?: () => void;
   sessionSidebarOnNewSession?: () => void;
   sessionSidebarOnSessionSelect?: (key: string) => void;
+  sessionSidebarOnSearchChange?: (query: string) => void;
+  sessionSidebarOnRename?: (key: string, newName: string) => Promise<void>;
+  sessionSidebarOnDelete?: (key: string) => Promise<void>;
   sessionSidebarLoading?: boolean;
   sessionSidebarOnOpen?: () => void;
   onChatScroll?: (event: Event) => void;
@@ -147,6 +150,12 @@ interface ChatEphemeralState {
   searchOpen: boolean;
   searchQuery: string;
   pinnedExpanded: boolean;
+  replyTo: {
+    index: number;
+    text: string;
+    role: string;
+    key: string;
+  } | null;
 }
 
 function createChatEphemeralState(): ChatEphemeralState {
@@ -162,6 +171,7 @@ function createChatEphemeralState(): ChatEphemeralState {
     searchOpen: false,
     searchQuery: "",
     pinnedExpanded: false,
+    replyTo: null,
   };
 }
 
@@ -1025,6 +1035,10 @@ export function renderChat(props: ChatProps) {
               }
               return renderMessageGroup(item, {
                 onOpenSidebar: props.onOpenSidebar,
+                onReply: (replyInfo) => {
+                  vs.replyTo = replyInfo;
+                  requestUpdate();
+                },
                 showReasoning,
                 showToolCalls: props.showToolCalls,
                 assistantName: props.assistantName,
@@ -1183,6 +1197,12 @@ export function renderChat(props: ChatProps) {
         if (props.draft.trim()) {
           inputHistory.push(props.draft);
         }
+        // Prepend reply reference if replyTo is set
+        if (vs.replyTo) {
+          const replyRef = `[Replying to ${vs.replyTo.role}: "${vs.replyTo.text}"]\n`;
+          props.onDraftChange(replyRef + props.draft);
+          vs.replyTo = null;
+        }
         props.onSend();
       }
     }
@@ -1243,6 +1263,12 @@ export function renderChat(props: ChatProps) {
                       onSessionSelect: (key) => props.sessionSidebarOnSessionSelect?.(key),
                       onNewSession: () => props.sessionSidebarOnNewSession?.(),
                       onClose: () => props.sessionSidebarOnClose?.(),
+                      sessionSidebarOnSearchChange: (query) =>
+                        props.sessionSidebarOnSearchChange?.(query),
+                      sessionSidebarOnRename: (key, newName) =>
+                        props.sessionSidebarOnRename?.(key, newName),
+                      sessionSidebarOnDelete: (key) => props.sessionSidebarOnDelete?.(key),
+                      searchQuery: props.sessionSearchQuery ?? "",
                       loading: props.sessionSidebarLoading ?? false,
                       basePath: props.basePath,
                     })
@@ -1314,6 +1340,27 @@ export function renderChat(props: ChatProps) {
 
         ${vs.sttRecording && vs.sttInterimText
           ? html`<div class="agent-chat__stt-interim">${vs.sttInterimText}</div>`
+          : nothing}
+        ${vs.replyTo
+          ? html`
+              <div class="agent-chat__reply-indicator">
+                <span class="agent-chat__reply-indicator__icon">${icons.reply}</span>
+                <span class="agent-chat__reply-indicator__text">
+                  Replying to <strong>${vs.replyTo.role}</strong>: "${vs.replyTo.text}"
+                </span>
+                <button
+                  class="agent-chat__reply-indicator__clear"
+                  type="button"
+                  aria-label="Cancel reply"
+                  @click=${() => {
+                    vs.replyTo = null;
+                    requestUpdate();
+                  }}
+                >
+                  ${icons.x}
+                </button>
+              </div>
+            `
           : nothing}
 
         <textarea
@@ -1447,6 +1494,12 @@ export function renderChat(props: ChatProps) {
                     @click=${() => {
                       if (props.draft.trim()) {
                         inputHistory.push(props.draft);
+                      }
+                      // Prepend reply reference if replyTo is set
+                      if (vs.replyTo) {
+                        const replyRef = `[Replying to ${vs.replyTo.role}: "${vs.replyTo.text}"]\n`;
+                        props.onDraftChange(replyRef + props.draft);
+                        vs.replyTo = null;
                       }
                       props.onSend();
                     }}

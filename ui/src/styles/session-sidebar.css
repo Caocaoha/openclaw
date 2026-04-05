@@ -15,6 +15,70 @@
   padding: 0;
 }
 
+/* --- Search Input --- */
+.session-sidebar__search {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  padding: 4px 6px;
+  background: var(--bg-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.session-sidebar__search-icon {
+  display: flex;
+  align-items: center;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.session-sidebar__search-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.session-sidebar__search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 11px;
+  outline: none;
+}
+
+.session-sidebar__search-input::placeholder {
+  color: var(--muted);
+}
+
+.session-sidebar__search-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.session-sidebar__search-clear:hover {
+  background: var(--bg-muted);
+  color: var(--text);
+}
+
+.session-sidebar__search-clear svg {
+  width: 10px;
+  height: 10px;
+}
+
 .session-sidebar__header {
   display: flex;
   align-items: center;
@@ -181,6 +245,50 @@
   height: 100%;
   border-radius: 2px;
   transition: width 0.3s ease;
+}
+
+/* --- Session Item Actions (edit, delete) --- */
+.session-sidebar-item__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+
+.session-sidebar-item:hover .session-sidebar-item__actions {
+  opacity: 1;
+}
+
+.session-sidebar-item__action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  padding: 0;
+}
+
+.session-sidebar-item__action-btn:hover {
+  background: var(--bg-muted);
+  color: var(--text);
+}
+
+.session-sidebar-item__action-btn--delete:hover {
+  background: color-mix(in srgb, #ef4444 15%, transparent);
+  color: #ef4444;
+}
+
+.session-sidebar-item__action-btn svg {
+  width: 13px;
+  height: 13px;
 }
 
 /* --- Footer & New Chat Button (full width, distinct color) --- */

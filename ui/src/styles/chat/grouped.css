@@ -109,6 +109,15 @@
   color: var(--accent);
 }
 
+/* ── Reply button ── */
+.chat-reply-btn {
+  /* Uses same base as chat-tts-btn from .chat-group-footer button */
+}
+
+.chat-reply-btn:hover {
+  color: var(--accent);
+}
+
 .chat-group-delete:hover {
   color: var(--danger) !important;
 }

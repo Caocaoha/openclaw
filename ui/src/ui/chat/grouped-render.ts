@@ -114,6 +114,7 @@ export function renderMessageGroup(
   group: MessageGroup,
   opts: {
     onOpenSidebar?: (content: string) => void;
+    onReply?: (replyInfo: { index: number; text: string; role: string; key: string }) => void;
     showReasoning: boolean;
     showToolCalls?: boolean;
     assistantName?: string;
@@ -177,6 +178,7 @@ export function renderMessageGroup(
           <span class="chat-group-timestamp">${timestamp}</span>
           ${renderMessageMeta(meta)}
           ${normalizedRole === "assistant" && isTtsSupported() ? renderTtsButton(group) : nothing}
+          ${opts.onReply ? renderReplyButton(group, opts.onReply) : nothing}
           ${opts.onDelete
             ? renderDeleteButton(opts.onDelete, normalizedRole === "user" ? "left" : "right")
             : nothing}
@@ -463,6 +465,34 @@ function renderTtsButton(group: MessageGroup) {
       }}
     >
       ${icons.volume2}
+    </button>
+  `;
+}
+
+function renderReplyButton(
+  group: MessageGroup,
+  onReply: (replyInfo: { index: number; text: string; role: string; key: string }) => void,
+) {
+  const text = extractGroupText(group);
+  const who = normalizeRoleForGrouping(group.role) === "user" ? "You" : "Assistant";
+  const truncated = text.length > 50 ? text.slice(0, 50) + "..." : text;
+
+  return html`
+    <button
+      class="btn btn--xs chat-reply-btn"
+      type="button"
+      title="Reply to this message"
+      aria-label="Reply to this message"
+      @click=${() => {
+        onReply({
+          index: group.messages.length > 0 ? 0 : 0, // placeholder
+          text: truncated,
+          role: who,
+          key: group.key,
+        });
+      }}
+    >
+      ${icons.reply}
     </button>
   `;
 }

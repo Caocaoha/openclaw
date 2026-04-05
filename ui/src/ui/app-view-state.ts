@@ -397,4 +397,12 @@ export type AppViewState = {
     sessionSidebarOnClose: () => void;
     sessionSidebarOnNewSession: () => void;
     sessionSidebarOnOpen: () => void;
+    sessionSidebarOnSearchChange: (query: string) => void;
+    sessionSidebarOnRename: (key: string, newName: string) => Promise<void>;
+    sessionSidebarOnDelete: (key: string) => Promise<void>;
+    sessionSearchQuery: string;
+    sessionSidebarOnSearchChange: (query: string) => void;
+    handleSessionSearchChange: (query: string) => void;
+    handleSessionRename: (key: string, newName: string) => Promise<void>;
+    handleSessionDelete: (key: string) => Promise<void>;
   };

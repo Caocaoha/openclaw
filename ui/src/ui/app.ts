@@ -63,6 +63,7 @@ import { loadChatHistory, type ChatState } from "./controllers/chat.ts";
 import type { DevicePairingList } from "./controllers/devices.ts";
 import type { ExecApprovalRequest } from "./controllers/exec-approval.ts";
 import type { ExecApprovalsFile, ExecApprovalsSnapshot } from "./controllers/exec-approvals.ts";
+import { loadSessions, patchSession } from "./controllers/sessions.ts";
 import type {
   ClawHubSearchResult,
   ClawHubSkillDetail,
@@ -816,9 +817,58 @@ export class OpenClawApp extends LitElement {
   }
 
   handleNewSessionFromSidebar() {
-    // Use /new command to create a truly new session
-    // Keep sidebar OPEN
+    // Preserve current session before creating new one
+    const currentKey = this.sessionKey;
+    if (currentKey && currentKey !== "main") {
+      patchSession(
+        this as unknown as import("./controllers/sessions.ts").SessionsState,
+        currentKey,
+        {
+          endedAt: Date.now(),
+        },
+      ).catch((err) => {
+        console.warn("[SessionSidebar] Failed to end current session:", err);
+      });
+    }
+    // Use /new command to create a new session with backlink
     void this.handleSendChat("/new");
+  }
+
+  handleSessionSearchChange(query: string) {
+    this.sessionsSearchQuery = query;
+  }
+
+  async handleSessionRename(key: string, newName: string) {
+    try {
+      await patchSession(
+        this as unknown as import("./controllers/sessions.ts").SessionsState,
+        key,
+        {
+          label: newName,
+        },
+      );
+    } catch (err) {
+      this.lastError = `Rename failed: ${String(err)}`;
+    }
+  }
+
+  async handleSessionDelete(key: string) {
+    try {
+      await this.client.request("sessions.delete", {
+        key,
+        deleteTranscript: true,
+      });
+      void loadSessions(this as unknown as import("./controllers/sessions.ts").SessionsState); // Refresh list
+      // If we deleted the active session, switch to main
+      if (key === this.sessionKey) {
+        this.sessionKey = "main";
+        this.applySettings({ ...this.settings, sessionKey: "main" });
+        void this.loadAssistantIdentity();
+        void loadChatHistory(this as unknown as ChatState);
+      }
+    } catch (err) {
+      this.lastError = `Delete failed: ${String(err)}`;
+    }
   }
 
   render() {

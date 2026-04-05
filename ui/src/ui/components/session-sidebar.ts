@@ -2,7 +2,6 @@ import { html, nothing, type TemplateResult } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import { icons } from "../icons.ts";
 import { type GatewaySessionRow, type SessionsListResult } from "../types.ts";
-import { renderSessionItem, type SessionItemProps } from "./session-item.ts";
 
 export type SessionSidebarProps = {
   sessions: SessionsListResult | null;
@@ -10,12 +9,28 @@ export type SessionSidebarProps = {
   onSessionSelect: (key: string) => void;
   onNewSession: () => void;
   onClose: () => void;
+  sessionSidebarOnSearchChange: (query: string) => void;
+  sessionSidebarOnRename: (key: string, newName: string) => Promise<void>;
+  sessionSidebarOnDelete: (key: string) => Promise<void>;
+  searchQuery?: string;
   loading?: boolean;
   basePath?: string;
 };
 
 export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult {
-  const { sessions, activeSessionKey, onSessionSelect, onNewSession, onClose, loading } = props;
+  const {
+    sessions,
+    activeSessionKey,
+    onSessionSelect,
+    onNewSession,
+    onClose,
+    sessionSidebarOnSearchChange,
+    sessionSidebarOnRename,
+    sessionSidebarOnDelete,
+    searchQuery = "",
+    loading,
+  } = props;
+
   const rows = sessions?.sessions ?? [];
 
   // Filter: show active sessions, or ended sessions that were preserved via /new (have previousSessionKey)
@@ -37,6 +52,15 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
     return false;
   });
 
+  // Apply search filter
+  const filteredSessions = searchQuery.trim()
+    ? showableSessions.filter((row) => {
+        const query = searchQuery.toLowerCase();
+        const name = (row.label ?? row.displayName ?? row.key ?? "").toLowerCase();
+        return name.includes(query);
+      })
+    : showableSessions;
+
   // Group sessions by recency
   const now = Date.now();
   const dayMs = 24 * 60 * 60 * 1000;
@@ -44,7 +68,7 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
   const yesterday: GatewaySessionRow[] = [];
   const older: GatewaySessionRow[] = [];
 
-  for (const row of showableSessions) {
+  for (const row of filteredSessions) {
     const ts = row.updatedAt ?? 0;
     if (!ts) {
       older.push(row);
@@ -57,6 +81,77 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
     }
   }
 
+  const renderSessionItem = (row: GatewaySessionRow): TemplateResult => {
+    const isActive = row.key === activeSessionKey;
+    const used = row.totalTokens ?? 0;
+    const limit = row.contextTokens ?? 0;
+    const pct = limit > 0 ? Math.min(Math.round((used / limit) * 100), 100) : 0;
+    const contextColor = pct >= 85 ? "var(--danger)" : pct >= 60 ? "var(--warn)" : "var(--ok)";
+    const contextWidth = `${Math.max(pct, 5)}%`;
+    const displayName = row.label ?? row.displayName ?? row.key ?? "Session";
+    const updatedAt = row.updatedAt ? formatRelativeTime(row.updatedAt) : "Unknown";
+
+    return html`
+      <button
+        class="session-sidebar-item ${isActive ? "session-sidebar-item--active" : ""}"
+        type="button"
+        role="option"
+        aria-selected=${isActive}
+        @click=${() => onSessionSelect(row.key)}
+        title=${displayName}
+      >
+        <div class="session-sidebar-item__icon">${isActive ? icons.check : icons.circle}</div>
+        <div class="session-sidebar-item__content">
+          <div class="session-sidebar-item__name">${displayName}</div>
+          <div class="session-sidebar-item__meta">
+            <span class="session-sidebar-item__updated">${updatedAt}</span>
+            ${row.model
+              ? html`<span class="session-sidebar-item__model">${row.model}</span>`
+              : nothing}
+          </div>
+        </div>
+        <div class="session-sidebar-item__context" title="Context usage: ${pct}%">
+          <div
+            class="session-sidebar-item__context-bar"
+            style="width: ${contextWidth}; background: ${contextColor}"
+          ></div>
+        </div>
+        <div class="session-sidebar-item__actions">
+          <button
+            class="session-sidebar-item__action-btn"
+            type="button"
+            title="Rename session"
+            @click=${async (e: Event) => {
+              e.stopPropagation();
+              const newName = prompt("Rename session:", displayName);
+              if (newName !== null && newName.trim() !== displayName) {
+                await sessionSidebarOnRename(row.key, newName.trim());
+              }
+            }}
+          >
+            ${icons.edit}
+          </button>
+          <button
+            class="session-sidebar-item__action-btn session-sidebar-item__action-btn--delete"
+            type="button"
+            title="Delete session"
+            @click=${async (e: Event) => {
+              e.stopPropagation();
+              const confirmed = confirm(
+                `Delete session "${displayName}"?\n\nThis will archive the transcript and cannot be undone.`,
+              );
+              if (confirmed) {
+                await sessionSidebarOnDelete(row.key);
+              }
+            }}
+          >
+            ${icons.trash}
+          </button>
+        </div>
+      </button>
+    `;
+  };
+
   const renderGroup = (label: string, items: GatewaySessionRow[]) => {
     if (items.length === 0) {
       return nothing;
@@ -67,13 +162,7 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
         ${repeat(
           items,
           (row) => row.key,
-          (row) =>
-            renderSessionItem({
-              session: row,
-              isActive: row.key === activeSessionKey,
-              onSelect: onSessionSelect,
-              basePath: props.basePath,
-            } as SessionItemProps),
+          (row) => renderSessionItem(row),
         )}
       </div>
     `;
@@ -82,12 +171,37 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
   return html`
     <aside class="session-sidebar" role="navigation" aria-label="Session list">
       <div class="session-sidebar__header">
-        <h2 class="session-sidebar__title">Sessions</h2>
+        <div class="session-sidebar__search">
+          <span class="session-sidebar__search-icon">${icons.search}</span>
+          <input
+            type="text"
+            class="session-sidebar__search-input"
+            placeholder="Search..."
+            .value=${searchQuery}
+            @input=${(e: Event) => {
+              sessionSidebarOnSearchChange((e.target as HTMLInputElement).value);
+            }}
+          />
+          ${searchQuery
+            ? html`
+                <button
+                  class="session-sidebar__search-clear"
+                  type="button"
+                  @click=${() => {
+                    sessionSidebarOnSearchChange("");
+                  }}
+                  aria-label="Clear search"
+                >
+                  ${icons.x}
+                </button>
+              `
+            : nothing}
+        </div>
         <button
           class="session-sidebar__close"
           type="button"
-          aria-label="Close session sidebar"
           @click=${onClose}
+          aria-label="Close sidebar"
         >
           ${icons.x}
         </button>
@@ -97,8 +211,12 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
         ${loading
           ? html` <div class="session-sidebar__loading">${icons.loader} Loading sessions...</div> `
           : nothing}
-        ${showableSessions.length === 0 && !loading
-          ? html` <div class="session-sidebar__empty">No sessions found</div> `
+        ${filteredSessions.length === 0 && !loading
+          ? html`
+              <div class="session-sidebar__empty">
+                ${searchQuery ? "No sessions match your search" : "No sessions found"}
+              </div>
+            `
           : nothing}
         ${renderGroup("Today", today)} ${renderGroup("Yesterday", yesterday)}
         ${renderGroup("Older", older)}
@@ -117,4 +235,24 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
       </div>
     </aside>
   `;
+}
+
+function formatRelativeTime(timestamp: number): string {
+  const now = Date.now();
+  const diff = now - timestamp;
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) {
+    return `${days}d ago`;
+  }
+  if (hours > 0) {
+    return `${hours}h ago`;
+  }
+  if (minutes > 0) {
+    return `${minutes}m ago`;
+  }
+  return "Just now";
 }

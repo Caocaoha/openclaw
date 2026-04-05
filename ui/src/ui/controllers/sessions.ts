@@ -86,6 +86,8 @@ export async function patchSession(
     fastMode?: boolean | null;
     verboseLevel?: string | null;
     reasoningLevel?: string | null;
+    endedAt?: number | null;
+    previousSessionKey?: string | null;
   },
 ) {
   if (!state.client || !state.connected) {
@@ -106,6 +108,12 @@ export async function patchSession(
   }
   if ("reasoningLevel" in patch) {
     params.reasoningLevel = patch.reasoningLevel;
+  }
+  if ("endedAt" in patch) {
+    params.endedAt = patch.endedAt;
+  }
+  if ("previousSessionKey" in patch) {
+    params.previousSessionKey = patch.previousSessionKey;
   }
   try {
     await state.client.request("sessions.patch", params);
