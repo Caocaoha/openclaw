@@ -102,6 +102,7 @@ async function runSessionResetFromAgent(params: {
     key: params.key,
     reason: params.reason,
     commandSource: "gateway:agent",
+    preserveHistory: params.reason === "new",
   });
   if (!result.ok) {
     return result;
@@ -192,10 +193,7 @@ function dispatchAgentRunFromGateway(params: {
   respond: GatewayRequestHandlerOptions["respond"];
   context: GatewayRequestHandlerOptions["context"];
 }) {
-  const inputProvenance = normalizeInputProvenance(params.ingressOpts.inputProvenance);
-  const shouldTrackTask =
-    params.ingressOpts.sessionKey?.trim() && inputProvenance?.kind !== "inter_session";
-  if (shouldTrackTask) {
+  if (params.ingressOpts.sessionKey?.trim()) {
     try {
       createRunningTaskRun({
         runtime: "cli",
@@ -582,6 +580,8 @@ export const agentHandlers: GatewayRequestHandlers = {
         groupId: resolvedGroupId ?? entry?.groupId,
         groupChannel: resolvedGroupChannel ?? entry?.groupChannel,
         space: resolvedGroupSpace ?? entry?.space,
+        cliSessionIds: entry?.cliSessionIds,
+        claudeCliSessionId: entry?.claudeCliSessionId,
       };
       sessionEntry = mergeSessionEntry(entry, nextEntryPatch);
       const sendPolicy = resolveSendPolicy({
