@@ -1317,6 +1317,7 @@ export function buildGatewaySessionRow(params: {
     endedAt: subagentRun ? subagentEndedAt : entry?.endedAt,
     runtimeMs: subagentRun ? subagentRuntimeMs : entry?.runtimeMs,
     parentSessionKey: subagentOwner || entry?.parentSessionKey,
+    previousSessionKey: entry?.previousSessionKey,
     childSessions,
     responseUsage: entry?.responseUsage,
     modelProvider,
