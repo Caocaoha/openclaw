@@ -7,7 +7,7 @@
 .session-sidebar {
   display: flex;
   flex-direction: column;
-  width: 280px;
+  flex: 1;
   min-width: 0;
   height: 100%;
   background: var(--card);
@@ -200,6 +200,7 @@
 .session-sidebar-item__content {
   flex: 1;
   min-width: 0;
+  overflow: hidden;
 }
 
 .session-sidebar-item__name {
@@ -252,6 +253,7 @@
   display: flex;
   align-items: center;
   gap: 2px;
+  padding-right: 12px;
   flex-shrink: 0;
   opacity: 0.5;
   transition: opacity 0.15s;
@@ -270,20 +272,24 @@
   border: none;
   border-radius: var(--radius);
   background: transparent;
-  color: var(--muted);
+  color: #3b82f6;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
   padding: 0;
 }
 
 .session-sidebar-item__action-btn:hover {
-  background: var(--bg-muted);
-  color: var(--text);
+  background: color-mix(in srgb, #3b82f6 15%, transparent);
+  color: #2563eb;
+}
+
+.session-sidebar-item__action-btn--delete {
+  color: #ef4444;
 }
 
 .session-sidebar-item__action-btn--delete:hover {
   background: color-mix(in srgb, #ef4444 15%, transparent);
-  color: #ef4444;
+  color: #dc2626;
 }
 
 .session-sidebar-item__action-btn svg {
@@ -351,3 +357,4 @@
   padding: 10px 8px;
   justify-content: center;
 }
+/* TEST_MARKER_12345 */

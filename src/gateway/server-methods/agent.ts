@@ -102,6 +102,7 @@ async function runSessionResetFromAgent(params: {
     key: params.key,
     reason: params.reason,
     commandSource: "gateway:agent",
+    preserveHistory: params.reason === "new",
   });
   if (!result.ok) {
     return result;

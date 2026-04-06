@@ -686,6 +686,20 @@ export async function initSessionState(params: {
     sessionEntry.estimatedCostUsd = undefined;
     sessionEntry.contextTokens = undefined;
   }
+  // When /new is triggered (preserve history mode), archive old session at compound key
+  // and add backlinks to the new session entry.
+  const oldEntryKey =
+    resetTriggered && matchedResetTriggerLower === "/new" && previousSessionEntry?.sessionId
+      ? `${sessionKey}:${previousSessionEntry.sessionId}`
+      : undefined;
+  if (oldEntryKey) {
+    sessionEntry = {
+      ...sessionEntry,
+      previousSessionKey: oldEntryKey,
+      parentSessionKey: oldEntryKey,
+    };
+  }
+
   // Preserve per-session overrides while resetting compaction state on /new.
   sessionStore[sessionKey] = { ...sessionStore[sessionKey], ...sessionEntry };
   await updateSessionStore(
@@ -693,6 +707,16 @@ export async function initSessionState(params: {
     (store) => {
       // Preserve per-session overrides while resetting compaction state on /new.
       store[sessionKey] = { ...store[sessionKey], ...sessionEntry };
+      if (oldEntryKey && previousSessionEntry) {
+        // Store old session at compound key so sidebar can show it as history.
+        store[oldEntryKey] = {
+          ...previousSessionEntry,
+          updatedAt: now,
+          endedAt: now,
+          status: "done",
+          previousSessionKey: sessionKey,
+        };
+      }
       if (retiredLegacyMainDelivery) {
         store[retiredLegacyMainDelivery.key] = retiredLegacyMainDelivery.entry;
       }
@@ -717,13 +741,18 @@ export async function initSessionState(params: {
   if (previousSessionEntry?.sessionId) {
     const { archiveSessionTranscriptsDetailed, resolveStableSessionEndTranscript } =
       await loadSessionArchiveRuntime();
-    const archivedTranscripts = archiveSessionTranscriptsDetailed({
-      sessionId: previousSessionEntry.sessionId,
-      storePath,
-      sessionFile: previousSessionEntry.sessionFile,
-      agentId,
-      reason: "reset",
-    });
+    // When /new is triggered (oldEntryKey set), preserve the transcript on disk
+    // so the archived session's history remains readable. When /reset is triggered,
+    // archive (rename) the transcript as before to prevent disk accumulation (#14869).
+    const archivedTranscripts = !oldEntryKey
+      ? archiveSessionTranscriptsDetailed({
+          sessionId: previousSessionEntry.sessionId,
+          storePath,
+          sessionFile: previousSessionEntry.sessionFile,
+          agentId,
+          reason: "reset",
+        })
+      : [];
     previousSessionTranscript = resolveStableSessionEndTranscript({
       sessionId: previousSessionEntry.sessionId,
       storePath,

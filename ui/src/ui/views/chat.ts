@@ -1,3 +1,4 @@
+// TEST_CHAT_12345
 import { html, nothing, type TemplateResult } from "lit";
 import { ref } from "lit/directives/ref.js";
 import { repeat } from "lit/directives/repeat.js";
@@ -104,6 +105,7 @@ export type ChatProps = {
   sessionSidebarOnSearchChange?: (query: string) => void;
   sessionSidebarOnRename?: (key: string, newName: string) => Promise<void>;
   sessionSidebarOnDelete?: (key: string) => Promise<void>;
+  sessionSearchQuery?: string;
   sessionSidebarLoading?: boolean;
   sessionSidebarOnOpen?: () => void;
   onChatScroll?: (event: Event) => void;

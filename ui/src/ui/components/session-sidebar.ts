@@ -92,12 +92,18 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
     const updatedAt = row.updatedAt ? formatRelativeTime(row.updatedAt) : "Unknown";
 
     return html`
-      <button
+      <div
         class="session-sidebar-item ${isActive ? "session-sidebar-item--active" : ""}"
-        type="button"
         role="option"
+        tabindex="0"
         aria-selected=${isActive}
         @click=${() => onSessionSelect(row.key)}
+        @keydown=${(e: KeyboardEvent) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onSessionSelect(row.key);
+          }
+        }}
         title=${displayName}
       >
         <div class="session-sidebar-item__icon">${isActive ? icons.check : icons.circle}</div>
@@ -148,7 +154,7 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
             ${icons.trash}
           </button>
         </div>
-      </button>
+      </div>
     `;
   };
 

@@ -439,7 +439,11 @@ export async function performGatewaySessionReset(params: {
     const nextSessionId = randomUUID();
     const sessionFile = resolveSessionFilePath(
       nextSessionId,
-      currentEntry?.sessionFile ? { sessionFile: currentEntry.sessionFile } : undefined,
+      // When preserveHistory=true (/new), new session must use a fresh file so old history is not overwritten.
+      // When preserveHistory=false (/reset), reuse old file path (existing behavior).
+      !params.preserveHistory && currentEntry?.sessionFile
+        ? { sessionFile: currentEntry.sessionFile }
+        : undefined,
       resolveSessionFilePathOptions({
         storePath,
         agentId: sessionAgentId,
@@ -453,6 +457,7 @@ export async function performGatewaySessionReset(params: {
       const oldEntryKey = `${primaryKey}:${currentEntry.sessionId}`;
       const archivedEntry: SessionEntry = {
         ...currentEntry,
+        updatedAt: Date.now(), // ensure recent updatedAt so activeMinutes filter doesn't hide it
         endedAt: Date.now(),
         status: "done",
         previousSessionKey: primaryKey,
@@ -538,13 +543,18 @@ export async function performGatewaySessionReset(params: {
     reason: params.reason,
   });
 
-  const archivedTranscripts = archiveSessionTranscriptsForSessionDetailed({
-    sessionId: oldSessionId,
-    storePath,
-    sessionFile: oldSessionFile,
-    agentId: target.agentId,
-    reason: "reset",
-  });
+  // When preserveHistory=true (/new), keep the old transcript file in place so the
+  // archived session entry can still read its history. Do NOT rename/move it.
+  // When preserveHistory=false (/reset), archive (rename) the transcript as usual.
+  const archivedTranscripts = params.preserveHistory
+    ? []
+    : archiveSessionTranscriptsForSessionDetailed({
+        sessionId: oldSessionId,
+        storePath,
+        sessionFile: oldSessionFile,
+        agentId: target.agentId,
+        reason: "reset",
+      });
   fs.mkdirSync(path.dirname(next.sessionFile as string), { recursive: true });
   if (!fs.existsSync(next.sessionFile as string)) {
     const header = {

@@ -817,19 +817,22 @@ export class OpenClawApp extends LitElement {
   }
 
   handleNewSessionFromSidebar() {
-    // Preserve current session before creating new one
+    // If user is viewing an archived session (compound key like "main:{uuid}"),
+    // /new must target the primary key, not the archived compound key.
+    // Resolve primary key via previousSessionKey from sessions list, or strip UUID suffix.
     const currentKey = this.sessionKey;
-    if (currentKey && currentKey !== "main") {
-      patchSession(
-        this as unknown as import("./controllers/sessions.ts").SessionsState,
-        currentKey,
-        {
-          endedAt: Date.now(),
-        },
-      ).catch((err) => {
-        console.warn("[SessionSidebar] Failed to end current session:", err);
-      });
+    const currentRow = this.sessionsResult?.sessions?.find((s) => s.key === currentKey);
+    const UUID_SUFFIX_RE = /:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const primaryKey =
+      (currentRow?.endedAt && currentRow.previousSessionKey) ||
+      (UUID_SUFFIX_RE.test(currentKey) ? currentKey.replace(UUID_SUFFIX_RE, "") : currentKey);
+
+    // Switch to primary session before sending /new
+    if (this.sessionKey !== primaryKey) {
+      this.sessionKey = primaryKey;
+      this.applySettings({ ...this.settings, sessionKey: primaryKey });
     }
+
     // Use /new command to create a new session with backlink
     void this.handleSendChat("/new");
   }
