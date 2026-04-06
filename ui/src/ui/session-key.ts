@@ -1,10 +1,10 @@
+export const DEFAULT_AGENT_ID = "main";
+export const DEFAULT_MAIN_KEY = "main";
+
 export type ParsedAgentSessionKey = {
   agentId: string;
   rest: string;
 };
-
-export const DEFAULT_AGENT_ID = "main";
-export const DEFAULT_MAIN_KEY = "main";
 
 const VALID_ID_RE = /^[a-z0-9][a-z0-9_-]{0,63}$/i;
 const INVALID_CHARS_RE = /[^a-z0-9_-]+/g;
@@ -30,11 +30,6 @@ export function parseAgentSessionKey(
   return { agentId, rest };
 }
 
-export function normalizeMainKey(value: string | undefined | null): string {
-  const trimmed = (value ?? "").trim();
-  return trimmed ? trimmed.toLowerCase() : DEFAULT_MAIN_KEY;
-}
-
 export function normalizeAgentId(value: string | undefined | null): string {
   const trimmed = (value ?? "").trim();
   if (!trimmed) {
@@ -58,7 +53,7 @@ export function buildAgentMainSessionKey(params: {
   mainKey?: string | undefined;
 }): string {
   const agentId = normalizeAgentId(params.agentId);
-  const mainKey = normalizeMainKey(params.mainKey);
+  const mainKey = (params.mainKey ?? "").trim().toLowerCase() || DEFAULT_MAIN_KEY;
   return `agent:${agentId}:${mainKey}`;
 }
 

@@ -1639,6 +1639,20 @@ export function renderApp(state: AppViewState) {
               onOpenSidebar: (content: string) => state.handleOpenSidebar(content),
               onCloseSidebar: () => state.handleCloseSidebar(),
               onSplitRatioChange: (ratio: number) => state.handleSplitRatioChange(ratio),
+              // Session sidebar props
+              sessionSidebarOpen: state.sessionSidebarOpen,
+              sessionSidebarOnClose: () => state.handleCloseSessionSidebar(),
+              sessionSidebarOnSessionSelect: (key: string) =>
+                state.handleSessionSelectFromSidebar(key),
+              sessionSidebarOnNewSession: () => state.handleNewSessionFromSidebar(),
+              sessionSidebarOnSearchChange: (query: string) =>
+                state.handleSessionSearchChange(query),
+              sessionSidebarOnRename: (key: string, newName: string) =>
+                state.handleSessionRename(key, newName),
+              sessionSidebarOnDelete: (key: string) => state.handleSessionDelete(key),
+              sessionSearchQuery: state.sessionsSearchQuery,
+              sessionSidebarLoading: state.sessionsLoading,
+              sessionSidebarOnOpen: () => state.handleOpenSessionSidebar(),
               assistantName: state.assistantName,
               assistantAvatar: state.assistantAvatar,
               basePath: state.basePath ?? "",

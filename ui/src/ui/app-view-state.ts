@@ -89,6 +89,9 @@ export type AppViewState = {
   sidebarContent: string | null;
   sidebarError: string | null;
   splitRatio: number;
+  // Session sidebar
+  sessionSidebarOpen: boolean;
+  sessionSidebarOnSessionSelect?: (key: string) => void;
   scrollToBottom: (opts?: { smooth?: boolean }) => void;
   devicesLoading: boolean;
   devicesError: string | null;
@@ -398,4 +401,16 @@ export type AppViewState = {
     handleOpenSidebar: (content: string) => void;
     handleCloseSidebar: () => void;
     handleSplitRatioChange: (ratio: number) => void;
+    // Session sidebar handlers
+    sessionSidebarOnClose: () => void;
+    sessionSidebarOnNewSession: () => void;
+    sessionSidebarOnOpen: () => void;
+    sessionSidebarOnSearchChange: (query: string) => void;
+    sessionSidebarOnRename: (key: string, newName: string) => Promise<void>;
+    sessionSidebarOnDelete: (key: string) => Promise<void>;
+    sessionSearchQuery: string;
+    sessionSidebarOnSearchChange: (query: string) => void;
+    handleSessionSearchChange: (query: string) => void;
+    handleSessionRename: (key: string, newName: string) => Promise<void>;
+    handleSessionDelete: (key: string) => Promise<void>;
   };

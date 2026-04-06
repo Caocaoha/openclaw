@@ -1,3 +1,4 @@
+// TEST_CHAT_12345
 import { html, nothing, type TemplateResult } from "lit";
 import { ref } from "lit/directives/ref.js";
 import { repeat } from "lit/directives/repeat.js";
@@ -30,6 +31,7 @@ import {
   type SlashCommandDef,
 } from "../chat/slash-commands.ts";
 import { isSttSupported, startStt, stopStt } from "../chat/speech.ts";
+import { renderSessionSidebar } from "../components/session-sidebar.ts";
 import { icons } from "../icons.ts";
 import { detectTextDirection } from "../text-direction.ts";
 import type { GatewaySessionRow, SessionsListResult } from "../types.ts";
@@ -95,6 +97,17 @@ export type ChatProps = {
   onOpenSidebar?: (content: string) => void;
   onCloseSidebar?: () => void;
   onSplitRatioChange?: (ratio: number) => void;
+  // Session sidebar props
+  sessionSidebarOpen?: boolean;
+  sessionSidebarOnClose?: () => void;
+  sessionSidebarOnNewSession?: () => void;
+  sessionSidebarOnSessionSelect?: (key: string) => void;
+  sessionSidebarOnSearchChange?: (query: string) => void;
+  sessionSidebarOnRename?: (key: string, newName: string) => Promise<void>;
+  sessionSidebarOnDelete?: (key: string) => Promise<void>;
+  sessionSearchQuery?: string;
+  sessionSidebarLoading?: boolean;
+  sessionSidebarOnOpen?: () => void;
   onChatScroll?: (event: Event) => void;
   basePath?: string;
 };
@@ -139,6 +152,12 @@ interface ChatEphemeralState {
   searchOpen: boolean;
   searchQuery: string;
   pinnedExpanded: boolean;
+  replyTo: {
+    index: number;
+    text: string;
+    role: string;
+    key: string;
+  } | null;
 }
 
 function createChatEphemeralState(): ChatEphemeralState {
@@ -154,6 +173,7 @@ function createChatEphemeralState(): ChatEphemeralState {
     searchOpen: false,
     searchQuery: "",
     pinnedExpanded: false,
+    replyTo: null,
   };
 }
 
@@ -1017,6 +1037,10 @@ export function renderChat(props: ChatProps) {
               }
               return renderMessageGroup(item, {
                 onOpenSidebar: props.onOpenSidebar,
+                onReply: (replyInfo) => {
+                  vs.replyTo = replyInfo;
+                  requestUpdate();
+                },
                 showReasoning,
                 showToolCalls: props.showToolCalls,
                 assistantName: props.assistantName,
@@ -1129,6 +1153,39 @@ export function renderChat(props: ChatProps) {
       return;
     }
 
+    // Cmd+` for session sidebar toggle (Ctrl+\` on Windows/Linux)
+    if ((e.metaKey || e.ctrlKey) && e.key === "`") {
+      e.preventDefault();
+      if (props.sessionSidebarOpen) {
+        props.sessionSidebarOnClose?.();
+      } else {
+        props.sessionSidebarOnOpen?.();
+      }
+      return;
+    }
+
+    // Cmd+\\ (Ctrl+Shift+\\) for session sidebar (alternative)
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === "\\") {
+      e.preventDefault();
+      if (props.sessionSidebarOpen) {
+        props.sessionSidebarOnClose?.();
+      } else {
+        props.sessionSidebarOnOpen?.();
+      }
+      return;
+    }
+
+    // Cmd+N for new session (when not in input)
+    if ((e.metaKey || e.ctrlKey) && e.key === "n" && !vs.slashMenuOpen) {
+      // Only trigger when not typing in textarea (textarea has its own handler)
+      const target = e.target as HTMLElement;
+      if (target.tagName !== "TEXTAREA" && target.tagName !== "INPUT") {
+        e.preventDefault();
+        props.sessionSidebarOnNewSession?.();
+        return;
+      }
+    }
+
     // Send on Enter (without shift)
     if (e.key === "Enter" && !e.shiftKey) {
       if (e.isComposing || e.keyCode === 229) {
@@ -1141,6 +1198,12 @@ export function renderChat(props: ChatProps) {
       if (canCompose) {
         if (props.draft.trim()) {
           inputHistory.push(props.draft);
+        }
+        // Prepend reply reference if replyTo is set
+        if (vs.replyTo) {
+          const replyRef = `[Replying to ${vs.replyTo.role}: "${vs.replyTo.text}"]\n`;
+          props.onDraftChange(replyRef + props.draft);
+          vs.replyTo = null;
         }
         props.onSend();
       }
@@ -1192,18 +1255,36 @@ export function renderChat(props: ChatProps) {
                 .splitRatio=${splitRatio}
                 @resize=${(e: CustomEvent) => props.onSplitRatioChange?.(e.detail.splitRatio)}
               ></resizable-divider>
-              <div class="chat-sidebar">
-                ${renderMarkdownSidebar({
-                  content: props.sidebarContent ?? null,
-                  error: props.sidebarError ?? null,
-                  onClose: props.onCloseSidebar!,
-                  onViewRawText: () => {
-                    if (!props.sidebarContent || !props.onOpenSidebar) {
-                      return;
-                    }
-                    props.onOpenSidebar(`\`\`\`\n${props.sidebarContent}\n\`\`\``);
-                  },
-                })}
+              <div
+                class="chat-sidebar ${props.sessionSidebarOpen ? "chat-sidebar--session-only" : ""}"
+              >
+                ${props.sessionSidebarOpen
+                  ? renderSessionSidebar({
+                      sessions: props.sessions,
+                      activeSessionKey: props.sessionKey,
+                      onSessionSelect: (key) => props.sessionSidebarOnSessionSelect?.(key),
+                      onNewSession: () => props.sessionSidebarOnNewSession?.(),
+                      onClose: () => props.sessionSidebarOnClose?.(),
+                      sessionSidebarOnSearchChange: (query) =>
+                        props.sessionSidebarOnSearchChange?.(query),
+                      sessionSidebarOnRename: (key, newName) =>
+                        props.sessionSidebarOnRename?.(key, newName),
+                      sessionSidebarOnDelete: (key) => props.sessionSidebarOnDelete?.(key),
+                      searchQuery: props.sessionSearchQuery ?? "",
+                      loading: props.sessionSidebarLoading ?? false,
+                      basePath: props.basePath,
+                    })
+                  : renderMarkdownSidebar({
+                      content: props.sidebarContent ?? null,
+                      error: props.sidebarError ?? null,
+                      onClose: props.onCloseSidebar!,
+                      onViewRawText: () => {
+                        if (!props.sidebarContent || !props.onOpenSidebar) {
+                          return;
+                        }
+                        props.onOpenSidebar(`\`\`\`\n${props.sidebarContent}\n\`\`\``);
+                      },
+                    })}
               </div>
             `
           : nothing}
@@ -1261,6 +1342,27 @@ export function renderChat(props: ChatProps) {
 
         ${vs.sttRecording && vs.sttInterimText
           ? html`<div class="agent-chat__stt-interim">${vs.sttInterimText}</div>`
+          : nothing}
+        ${vs.replyTo
+          ? html`
+              <div class="agent-chat__reply-indicator">
+                <span class="agent-chat__reply-indicator__icon">${icons.reply}</span>
+                <span class="agent-chat__reply-indicator__text">
+                  Replying to <strong>${vs.replyTo.role}</strong>: "${vs.replyTo.text}"
+                </span>
+                <button
+                  class="agent-chat__reply-indicator__clear"
+                  type="button"
+                  aria-label="Cancel reply"
+                  @click=${() => {
+                    vs.replyTo = null;
+                    requestUpdate();
+                  }}
+                >
+                  ${icons.x}
+                </button>
+              </div>
+            `
           : nothing}
 
         <textarea
@@ -1368,6 +1470,14 @@ export function renderChat(props: ChatProps) {
             >
               ${icons.download}
             </button>
+            <button
+              class="btn btn--ghost ${props.sessionSidebarOpen ? "btn--active" : ""}"
+              @click=${() => props.sessionSidebarOnOpen?.()}
+              title="Session list"
+              aria-label="Open session list"
+            >
+              ${icons.panelLeftOpen}
+            </button>
 
             ${canAbort && (isBusy || props.sending)
               ? html`
@@ -1386,6 +1496,12 @@ export function renderChat(props: ChatProps) {
                     @click=${() => {
                       if (props.draft.trim()) {
                         inputHistory.push(props.draft);
+                      }
+                      // Prepend reply reference if replyTo is set
+                      if (vs.replyTo) {
+                        const replyRef = `[Replying to ${vs.replyTo.role}: "${vs.replyTo.text}"]\n`;
+                        props.onDraftChange(replyRef + props.draft);
+                        vs.replyTo = null;
                       }
                       props.onSend();
                     }}

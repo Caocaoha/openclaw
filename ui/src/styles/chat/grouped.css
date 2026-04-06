@@ -103,6 +103,15 @@
   color: var(--accent);
 }
 
+/* ── Reply button ── */
+.chat-reply-btn {
+  /* Uses same base as chat-tts-btn from .chat-group-footer button */
+}
+
+.chat-reply-btn:hover {
+  color: var(--accent);
+}
+
 .chat-group-delete:hover {
   color: var(--danger) !important;
 }
@@ -185,7 +194,7 @@ img.chat-avatar {
   border: 1px solid var(--border);
   background: var(--card);
   border-radius: var(--radius-lg);
-  padding: 10px 14px;
+  padding: 10px 10px 10px 14px;
   box-shadow: none;
   transition:
     background var(--duration-fast) ease-out,
@@ -197,7 +206,7 @@ img.chat-avatar {
 }
 
 .chat-bubble.has-copy {
-  padding-right: 36px;
+  padding-right: 28px;
 }
 
 .chat-bubble-actions {

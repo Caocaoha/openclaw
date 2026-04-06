@@ -59,10 +59,12 @@ import {
   refreshVisibleToolsEffectiveForCurrentSession as refreshVisibleToolsEffectiveForCurrentSessionInternal,
 } from "./controllers/agents.ts";
 import { loadAssistantIdentity as loadAssistantIdentityInternal } from "./controllers/assistant-identity.ts";
+import { loadChatHistory, type ChatState } from "./controllers/chat.ts";
 import type { DevicePairingList } from "./controllers/devices.ts";
 import type { DreamingStatus } from "./controllers/dreaming.ts";
 import type { ExecApprovalRequest } from "./controllers/exec-approval.ts";
 import type { ExecApprovalsFile, ExecApprovalsSnapshot } from "./controllers/exec-approvals.ts";
+import { loadSessions, patchSession } from "./controllers/sessions.ts";
 import type {
   ClawHubSearchResult,
   ClawHubSkillDetail,
@@ -185,6 +187,9 @@ export class OpenClawApp extends LitElement {
   @state() sidebarContent: string | null = null;
   @state() sidebarError: string | null = null;
   @state() splitRatio = this.settings.splitRatio;
+
+  // Session sidebar for chat view
+  @state() sessionSidebarOpen = false;
 
   @state() nodesLoading = false;
   @state() nodes: Array<Record<string, unknown>> = [];
@@ -493,6 +498,15 @@ export class OpenClawApp extends LitElement {
         this.paletteActiveIndex = 0;
       }
     }
+    // Ctrl+\` (or Cmd+\` on Mac) — toggle session sidebar
+    if ((e.metaKey || e.ctrlKey) && e.key === "`") {
+      e.preventDefault();
+      if (this.sessionSidebarOpen) {
+        this.handleCloseSessionSidebar();
+      } else {
+        this.handleOpenSessionSidebar();
+      }
+    }
   };
 
   createRenderRoot() {
@@ -760,6 +774,7 @@ export class OpenClawApp extends LitElement {
 
   handleCloseSidebar() {
     this.sidebarOpen = false;
+    this.sessionSidebarOpen = false; // Also close session sidebar when outer sidebar closes
     // Clear content after transition
     if (this.sidebarCloseTimer != null) {
       window.clearTimeout(this.sidebarCloseTimer);
@@ -778,6 +793,94 @@ export class OpenClawApp extends LitElement {
     const newRatio = Math.max(0.4, Math.min(0.7, ratio));
     this.splitRatio = newRatio;
     this.applySettings({ ...this.settings, splitRatio: newRatio });
+  }
+
+  // Session sidebar handlers
+  handleOpenSessionSidebar() {
+    this.sessionSidebarOpen = true;
+    // Also open the outer sidebar (tool output sidebar) so session sidebar has a container
+    if (!this.sidebarOpen) {
+      this.sidebarOpen = true;
+    }
+  }
+
+  handleCloseSessionSidebar() {
+    // Close session sidebar AND outer sidebar (tool output)
+    this.sessionSidebarOpen = false;
+    this.sidebarOpen = false;
+  }
+
+  handleSessionSelectFromSidebar(key: string) {
+    // Clear old messages immediately so they don't flash during load
+    this.chatMessages = [];
+    this.chatMessage = "";
+    this.chatStream = null;
+    this.chatQueue = [];
+    this.chatStreamStartedAt = null;
+    this.chatRunId = null;
+    this.sessionKey = key;
+    this.applySettings({ ...this.settings, sessionKey: key, lastActiveSessionKey: key });
+    void this.loadAssistantIdentity();
+    // Keep sidebar OPEN so user can continue switching sessions
+    void loadChatHistory(this as unknown as ChatState);
+  }
+
+  handleNewSessionFromSidebar() {
+    // If user is viewing an archived session (compound key like "main:{uuid}"),
+    // /new must target the primary key, not the archived compound key.
+    // Resolve primary key via previousSessionKey from sessions list, or strip UUID suffix.
+    const currentKey = this.sessionKey;
+    const currentRow = this.sessionsResult?.sessions?.find((s) => s.key === currentKey);
+    const UUID_SUFFIX_RE = /:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const primaryKey =
+      (currentRow?.endedAt && currentRow.previousSessionKey) ||
+      (UUID_SUFFIX_RE.test(currentKey) ? currentKey.replace(UUID_SUFFIX_RE, "") : currentKey);
+
+    // Switch to primary session before sending /new
+    if (this.sessionKey !== primaryKey) {
+      this.sessionKey = primaryKey;
+      this.applySettings({ ...this.settings, sessionKey: primaryKey });
+    }
+
+    // Use /new command to create a new session with backlink
+    void this.handleSendChat("/new");
+  }
+
+  handleSessionSearchChange(query: string) {
+    this.sessionsSearchQuery = query;
+  }
+
+  async handleSessionRename(key: string, newName: string) {
+    try {
+      await patchSession(
+        this as unknown as import("./controllers/sessions.ts").SessionsState,
+        key,
+        {
+          label: newName,
+        },
+      );
+    } catch (err) {
+      this.lastError = `Rename failed: ${String(err)}`;
+    }
+  }
+
+  async handleSessionDelete(key: string) {
+    try {
+      await this.client.request("sessions.delete", {
+        key,
+        deleteTranscript: true,
+      });
+      void loadSessions(this as unknown as import("./controllers/sessions.ts").SessionsState); // Refresh list
+      // If we deleted the active session, switch to main
+      if (key === this.sessionKey) {
+        this.sessionKey = "main";
+        this.applySettings({ ...this.settings, sessionKey: "main" });
+        void this.loadAssistantIdentity();
+        void loadChatHistory(this as unknown as ChatState);
+      }
+    } catch (err) {
+      this.lastError = `Delete failed: ${String(err)}`;
+    }
   }
 
   render() {
