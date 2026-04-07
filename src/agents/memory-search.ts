@@ -6,9 +6,10 @@ import type { SecretInput } from "../config/types.secrets.js";
 import {
   isMemoryMultimodalEnabled,
   normalizeMemoryMultimodalSettings,
+  supportsMemoryMultimodalEmbeddings,
   type MemoryMultimodalSettings,
-} from "../plugin-sdk/memory-core-host-multimodal.js";
-import { getMemoryEmbeddingProvider } from "../plugins/memory-embedding-providers.js";
+} from "../memory-host-sdk/multimodal.js";
+import { getMemoryEmbeddingProvider } from "../plugins/memory-embedding-provider-runtime.js";
 import { clampInt, clampNumber, resolveUserPath } from "../utils.js";
 import { resolveAgentConfig } from "./agent-scope.js";
 
@@ -43,6 +44,9 @@ export type ResolvedMemorySearchConfig = {
   store: {
     driver: "sqlite";
     path: string;
+    fts: {
+      tokenizer: "unicode61" | "trigram";
+    };
     vector: {
       enabled: boolean;
       extensionPath?: string;
@@ -206,9 +210,13 @@ function mergeConfig(
     extensionPath:
       overrides?.store?.vector?.extensionPath ?? defaults?.store?.vector?.extensionPath,
   };
+  const fts = {
+    tokenizer: overrides?.store?.fts?.tokenizer ?? defaults?.store?.fts?.tokenizer ?? "unicode61",
+  };
   const store = {
     driver: overrides?.store?.driver ?? defaults?.store?.driver ?? "sqlite",
     path: resolveStorePath(agentId, overrides?.store?.path ?? defaults?.store?.path),
+    fts,
     vector,
   };
   const chunking = {
@@ -372,11 +380,24 @@ export function resolveMemorySearchConfig(
   const multimodalActive = isMemoryMultimodalEnabled(resolved.multimodal);
   const multimodalProvider =
     resolved.provider === "auto" ? undefined : getMemoryEmbeddingProvider(resolved.provider);
+  const builtinMultimodalSupport =
+    resolved.provider === "auto"
+      ? false
+      : supportsMemoryMultimodalEmbeddings({
+          provider: resolved.provider,
+          model: resolved.model,
+        });
   if (
     multimodalActive &&
-    !multimodalProvider?.supportsMultimodalEmbeddings?.({
-      model: resolved.model,
-    })
+    !(
+      // Fall back to the built-in helper when the provider is not registered yet
+      // or when a registered adapter does not implement multimodal capability checks.
+      (
+        multimodalProvider?.supportsMultimodalEmbeddings?.({
+          model: resolved.model,
+        }) ?? builtinMultimodalSupport
+      )
+    )
   ) {
     throw new Error(
       "agents.*.memorySearch.multimodal requires a provider adapter that supports multimodal embeddings for the configured model.",

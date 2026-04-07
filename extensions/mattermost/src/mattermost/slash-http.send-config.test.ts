@@ -39,16 +39,27 @@ const mockState = vi.hoisted(() => ({
   normalizeMattermostAllowList: vi.fn((value: unknown) => value),
 }));
 
-vi.mock("./runtime-api.js", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("./runtime-api.js")>();
+vi.mock("./runtime-api.js", () => {
   return {
-    ...actual,
     buildModelsProviderData: mockState.buildModelsProviderData,
+    createChannelReplyPipeline: vi.fn(() => ({
+      onModelSelected: vi.fn(),
+      typingCallbacks: {},
+    })),
+    createDedupeCache: vi.fn(() => ({
+      check: () => false,
+    })),
     createReplyPrefixOptions: vi.fn(() => ({})),
     createTypingCallbacks: vi.fn(() => ({ onReplyStart: vi.fn() })),
     isRequestBodyLimitError: vi.fn(() => false),
     logTypingFailure: vi.fn(),
+    formatInboundFromLabel: vi.fn(() => ""),
+    rawDataToString: vi.fn((value: unknown) => String(value ?? "")),
     readRequestBodyWithLimit: mockState.readRequestBodyWithLimit,
+    resolveThreadSessionKeys: vi.fn((params: { baseSessionKey: string }) => ({
+      sessionKey: params.baseSessionKey,
+      parentSessionKey: undefined,
+    })),
   };
 });
 
@@ -75,12 +86,16 @@ vi.mock("../runtime.js", () => ({
   }),
 }));
 
-vi.mock("./client.js", () => ({
-  createMattermostClient: mockState.createMattermostClient,
-  fetchMattermostChannel: mockState.fetchMattermostChannel,
-  normalizeMattermostBaseUrl: vi.fn((value: string | undefined) => value?.trim() ?? ""),
-  sendMattermostTyping: vi.fn(),
-}));
+vi.mock("./client.js", async () => {
+  const actual = await vi.importActual<typeof import("./client.js")>("./client.js");
+  return {
+    ...actual,
+    createMattermostClient: mockState.createMattermostClient,
+    fetchMattermostChannel: mockState.fetchMattermostChannel,
+    normalizeMattermostBaseUrl: vi.fn((value: string | undefined) => value?.trim() ?? ""),
+    sendMattermostTyping: vi.fn(),
+  };
+});
 
 vi.mock("./model-picker.js", () => ({
   renderMattermostModelSummaryView: vi.fn(),
@@ -220,5 +235,30 @@ describe("slash-http cfg threading", () => {
         accountId: "default",
       }),
     );
+  });
+
+  it("does not rely on Set.has for command token validation", async () => {
+    const commandTokens = new Set(["valid-token"]);
+    const hasSpy = vi.fn(() => {
+      throw new Error("Set.has should not be used for slash token validation");
+    });
+    Object.defineProperty(commandTokens, "has", {
+      value: hasSpy,
+      configurable: true,
+    });
+
+    const handler = createSlashCommandHttpHandler({
+      account: accountFixture,
+      cfg: {} as OpenClawConfig,
+      runtime: {} as RuntimeEnv,
+      commandTokens,
+    });
+    const response = createResponse();
+
+    await handler(createRequest(), response.res);
+
+    expect(response.res.statusCode).toBe(200);
+    expect(response.getBody()).toContain("Processing");
+    expect(hasSpy).not.toHaveBeenCalled();
   });
 });
