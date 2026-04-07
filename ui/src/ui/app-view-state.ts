@@ -409,4 +409,5 @@ export type AppViewState = {
     handleSessionSearchChange: (query: string) => void;
     handleSessionRename: (key: string, newName: string) => Promise<void>;
     handleSessionDelete: (key: string) => Promise<void>;
+    handleToggleBackgroundTasks: () => void;
   };

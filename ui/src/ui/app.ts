@@ -190,6 +190,7 @@ export class OpenClawApp extends LitElement {
 
   // Session sidebar for chat view
   @state() sessionSidebarOpen = false;
+  @state() backgroundTasksCollapsed = true;
 
   @state() nodesLoading = false;
   @state() nodes: Array<Record<string, unknown>> = [];
@@ -884,6 +885,10 @@ export class OpenClawApp extends LitElement {
     } catch (err) {
       this.lastError = `Delete failed: ${String(err)}`;
     }
+  }
+
+  handleToggleBackgroundTasks() {
+    this.backgroundTasksCollapsed = !this.backgroundTasksCollapsed;
   }
 
   render() {

@@ -1,6 +1,8 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { repeat } from "lit/directives/repeat.js";
+import { isCronSessionKey } from "../app-render.helpers.js";
 import { icons } from "../icons.ts";
+import { isSubagentSessionKey } from "../session-key.js";
 import { type GatewaySessionRow, type SessionsListResult } from "../types.ts";
 
 export type SessionSidebarProps = {
@@ -15,6 +17,8 @@ export type SessionSidebarProps = {
   searchQuery?: string;
   loading?: boolean;
   basePath?: string;
+  backgroundTasksCollapsed?: boolean;
+  onToggleBackgroundTasks?: () => void;
 };
 
 export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult {
@@ -29,6 +33,8 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
     sessionSidebarOnDelete,
     searchQuery = "",
     loading,
+    backgroundTasksCollapsed = true,
+    onToggleBackgroundTasks,
   } = props;
 
   const rows = sessions?.sessions ?? [];
@@ -61,14 +67,21 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
       })
     : showableSessions;
 
-  // Group sessions by recency
+  // Split into main sessions and background tasks
+  const isBackgroundTask = (row: GatewaySessionRow) =>
+    isCronSessionKey(row.key) || isSubagentSessionKey(row.key);
+
+  const mainSessions = filteredSessions.filter((r) => !isBackgroundTask(r));
+  const backgroundSessions = filteredSessions.filter(isBackgroundTask);
+
+  // Group main sessions by recency
   const now = Date.now();
   const dayMs = 24 * 60 * 60 * 1000;
   const today: GatewaySessionRow[] = [];
   const yesterday: GatewaySessionRow[] = [];
   const older: GatewaySessionRow[] = [];
 
-  for (const row of filteredSessions) {
+  for (const row of mainSessions) {
     const ts = row.updatedAt ?? 0;
     if (!ts) {
       older.push(row);
@@ -174,6 +187,35 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
     `;
   };
 
+  const renderBackgroundTasksSection = () => {
+    if (backgroundSessions.length === 0) {
+      return nothing;
+    }
+    return html`
+      <div class="session-sidebar__group session-sidebar__background-tasks">
+        <button
+          class="session-sidebar__section-toggle"
+          type="button"
+          @click=${onToggleBackgroundTasks}
+          title="Toggle Background Tasks section"
+        >
+          <span class="session-sidebar__section-toggle-icon">
+            ${backgroundTasksCollapsed ? icons.chevronRight : icons.chevronDown}
+          </span>
+          <span class="session-sidebar__section-toggle-label">Background Tasks</span>
+          <span class="session-sidebar__section-toggle-badge">${backgroundSessions.length}</span>
+        </button>
+        ${!backgroundTasksCollapsed
+          ? repeat(
+              backgroundSessions,
+              (row) => row.key,
+              (row) => renderSessionItem(row),
+            )
+          : nothing}
+      </div>
+    `;
+  };
+
   return html`
     <aside class="session-sidebar" role="navigation" aria-label="Session list">
       <div class="session-sidebar__header">
@@ -225,7 +267,7 @@ export function renderSessionSidebar(props: SessionSidebarProps): TemplateResult
             `
           : nothing}
         ${renderGroup("Today", today)} ${renderGroup("Yesterday", yesterday)}
-        ${renderGroup("Older", older)}
+        ${renderGroup("Older", older)} ${renderBackgroundTasksSection()}
       </div>
 
       <div class="session-sidebar__footer">

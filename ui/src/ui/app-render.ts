@@ -1651,6 +1651,8 @@ export function renderApp(state: AppViewState) {
                 state.handleSessionRename(key, newName),
               sessionSidebarOnDelete: (key: string) => state.handleSessionDelete(key),
               sessionSearchQuery: state.sessionsSearchQuery,
+              backgroundTasksCollapsed: state.backgroundTasksCollapsed,
+              onToggleBackgroundTasks: () => state.handleToggleBackgroundTasks(),
               sessionSidebarLoading: state.sessionsLoading,
               sessionSidebarOnOpen: () => state.handleOpenSessionSidebar(),
               assistantName: state.assistantName,
