@@ -108,6 +108,8 @@ export type ChatProps = {
   sessionSearchQuery?: string;
   sessionSidebarLoading?: boolean;
   sessionSidebarOnOpen?: () => void;
+  backgroundTasksCollapsed?: boolean;
+  onToggleBackgroundTasks?: () => void;
   onChatScroll?: (event: Event) => void;
   basePath?: string;
 };
@@ -1274,6 +1276,8 @@ export function renderChat(props: ChatProps) {
                       searchQuery: props.sessionSearchQuery ?? "",
                       loading: props.sessionSidebarLoading ?? false,
                       basePath: props.basePath,
+                      backgroundTasksCollapsed: props.backgroundTasksCollapsed ?? true,
+                      onToggleBackgroundTasks: props.onToggleBackgroundTasks,
                     })
                   : renderMarkdownSidebar({
                       content: props.sidebarContent ?? null,
