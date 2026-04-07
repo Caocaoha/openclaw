@@ -865,6 +865,9 @@ export class OpenClawApp extends LitElement {
   }
 
   async handleSessionDelete(key: string) {
+    if (!this.client) {
+      return;
+    }
     try {
       await this.client.request("sessions.delete", {
         key,

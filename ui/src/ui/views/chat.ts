@@ -1268,8 +1268,9 @@ export function renderChat(props: ChatProps) {
                       sessionSidebarOnSearchChange: (query) =>
                         props.sessionSidebarOnSearchChange?.(query),
                       sessionSidebarOnRename: (key, newName) =>
-                        props.sessionSidebarOnRename?.(key, newName),
-                      sessionSidebarOnDelete: (key) => props.sessionSidebarOnDelete?.(key),
+                        props.sessionSidebarOnRename?.(key, newName) ?? Promise.resolve(),
+                      sessionSidebarOnDelete: (key) =>
+                        props.sessionSidebarOnDelete?.(key) ?? Promise.resolve(),
                       searchQuery: props.sessionSearchQuery ?? "",
                       loading: props.sessionSidebarLoading ?? false,
                       basePath: props.basePath,

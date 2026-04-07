@@ -402,14 +402,10 @@ export type AppViewState = {
     handleCloseSidebar: () => void;
     handleSplitRatioChange: (ratio: number) => void;
     // Session sidebar handlers
-    sessionSidebarOnClose: () => void;
-    sessionSidebarOnNewSession: () => void;
-    sessionSidebarOnOpen: () => void;
-    sessionSidebarOnSearchChange: (query: string) => void;
-    sessionSidebarOnRename: (key: string, newName: string) => Promise<void>;
-    sessionSidebarOnDelete: (key: string) => Promise<void>;
-    sessionSearchQuery: string;
-    sessionSidebarOnSearchChange: (query: string) => void;
+    handleOpenSessionSidebar: () => void;
+    handleCloseSessionSidebar: () => void;
+    handleSessionSelectFromSidebar: (key: string) => void;
+    handleNewSessionFromSidebar: () => void;
     handleSessionSearchChange: (query: string) => void;
     handleSessionRename: (key: string, newName: string) => Promise<void>;
     handleSessionDelete: (key: string) => Promise<void>;

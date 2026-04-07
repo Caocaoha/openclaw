@@ -7,7 +7,7 @@ import type { TtsAutoMode } from "../types.tts.js";
 
 export type SessionScope = "per-sender" | "global";
 
-export type SessionChannelId = ChannelId | "webchat";
+export type SessionChannelId = ChannelId;
 
 export type SessionChatType = ChatType;
 
@@ -20,6 +20,8 @@ export type SessionOrigin = {
   to?: string;
   accountId?: string;
   threadId?: string | number;
+  nativeChannelId?: string;
+  nativeDirectUserId?: string;
 };
 
 export type SessionAcpIdentitySource = "ensure" | "status" | "event";
@@ -80,6 +82,10 @@ export type SessionEntry = {
   lastHeartbeatText?: string;
   /** Timestamp (ms) when lastHeartbeatText was delivered. */
   lastHeartbeatSentAt?: number;
+  /** Per-task last-run timestamps for heartbeat scheduling (task name → epoch ms). */
+  heartbeatTaskState?: Record<string, number>;
+  /** Set to true when a live model switch is pending confirmation on next run. */
+  liveModelSwitchPending?: boolean;
   sessionId: string;
   updatedAt: number;
   sessionFile?: string;
