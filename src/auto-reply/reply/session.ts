@@ -305,6 +305,9 @@ export async function initSessionState(params: {
   let persistedAuthProfileOverride: string | undefined;
   let persistedAuthProfileOverrideSource: SessionEntry["authProfileOverrideSource"];
   let persistedAuthProfileOverrideCompactionCount: number | undefined;
+  let persistedCliSessionIds: SessionEntry["cliSessionIds"];
+  let persistedCliSessionBindings: SessionEntry["cliSessionBindings"];
+  let persistedClaudeCliSessionId: string | undefined;
   let persistedLabel: string | undefined;
   let persistedSpawnedBy: SessionEntry["spawnedBy"];
   let persistedSpawnedWorkspaceDir: SessionEntry["spawnedWorkspaceDir"];
@@ -498,8 +501,9 @@ export async function initSessionState(params: {
       persistedAuthProfileOverride = entry.authProfileOverride;
       persistedAuthProfileOverrideSource = entry.authProfileOverrideSource;
       persistedAuthProfileOverrideCompactionCount = entry.authProfileOverrideCompactionCount;
-      // Explicit /new and /reset should rotate the underlying CLI conversation too.
-      // Keep the model/auth choice, but force the next turn to mint a fresh CLI binding.
+      persistedCliSessionIds = entry.cliSessionIds;
+      persistedCliSessionBindings = entry.cliSessionBindings;
+      persistedClaudeCliSessionId = entry.claudeCliSessionId;
       persistedLabel = entry.label;
       persistedSpawnedBy = entry.spawnedBy;
       persistedSpawnedWorkspaceDir = entry.spawnedWorkspaceDir;
@@ -569,6 +573,9 @@ export async function initSessionState(params: {
       persistedAuthProfileOverrideSource ?? baseEntry?.authProfileOverrideSource,
     authProfileOverrideCompactionCount:
       persistedAuthProfileOverrideCompactionCount ?? baseEntry?.authProfileOverrideCompactionCount,
+    cliSessionIds: persistedCliSessionIds ?? baseEntry?.cliSessionIds,
+    cliSessionBindings: persistedCliSessionBindings ?? baseEntry?.cliSessionBindings,
+    claudeCliSessionId: persistedClaudeCliSessionId ?? baseEntry?.claudeCliSessionId,
     label: persistedLabel ?? baseEntry?.label,
     spawnedBy: persistedSpawnedBy ?? baseEntry?.spawnedBy,
     spawnedWorkspaceDir: persistedSpawnedWorkspaceDir ?? baseEntry?.spawnedWorkspaceDir,
@@ -679,6 +686,20 @@ export async function initSessionState(params: {
     sessionEntry.estimatedCostUsd = undefined;
     sessionEntry.contextTokens = undefined;
   }
+  // When /new is triggered (preserve history mode), archive old session at compound key
+  // and add backlinks to the new session entry.
+  const oldEntryKey =
+    resetTriggered && matchedResetTriggerLower === "/new" && previousSessionEntry?.sessionId
+      ? `${sessionKey}:${previousSessionEntry.sessionId}`
+      : undefined;
+  if (oldEntryKey) {
+    sessionEntry = {
+      ...sessionEntry,
+      previousSessionKey: oldEntryKey,
+      parentSessionKey: oldEntryKey,
+    };
+  }
+
   // Preserve per-session overrides while resetting compaction state on /new.
   sessionStore[sessionKey] = { ...sessionStore[sessionKey], ...sessionEntry };
   await updateSessionStore(
@@ -686,6 +707,16 @@ export async function initSessionState(params: {
     (store) => {
       // Preserve per-session overrides while resetting compaction state on /new.
       store[sessionKey] = { ...store[sessionKey], ...sessionEntry };
+      if (oldEntryKey && previousSessionEntry) {
+        // Store old session at compound key so sidebar can show it as history.
+        store[oldEntryKey] = {
+          ...previousSessionEntry,
+          updatedAt: now,
+          endedAt: now,
+          status: "done",
+          previousSessionKey: sessionKey,
+        };
+      }
       if (retiredLegacyMainDelivery) {
         store[retiredLegacyMainDelivery.key] = retiredLegacyMainDelivery.entry;
       }
@@ -710,13 +741,18 @@ export async function initSessionState(params: {
   if (previousSessionEntry?.sessionId) {
     const { archiveSessionTranscriptsDetailed, resolveStableSessionEndTranscript } =
       await loadSessionArchiveRuntime();
-    const archivedTranscripts = archiveSessionTranscriptsDetailed({
-      sessionId: previousSessionEntry.sessionId,
-      storePath,
-      sessionFile: previousSessionEntry.sessionFile,
-      agentId,
-      reason: "reset",
-    });
+    // When /new is triggered (oldEntryKey set), preserve the transcript on disk
+    // so the archived session's history remains readable. When /reset is triggered,
+    // archive (rename) the transcript as before to prevent disk accumulation (#14869).
+    const archivedTranscripts = !oldEntryKey
+      ? archiveSessionTranscriptsDetailed({
+          sessionId: previousSessionEntry.sessionId,
+          storePath,
+          sessionFile: previousSessionEntry.sessionFile,
+          agentId,
+          reason: "reset",
+        })
+      : [];
     previousSessionTranscript = resolveStableSessionEndTranscript({
       sessionId: previousSessionEntry.sessionId,
       storePath,

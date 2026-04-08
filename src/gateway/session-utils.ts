@@ -1061,33 +1061,7 @@ export async function resolveGatewayModelSupportsImages(params: {
       (entry) =>
         entry.id === params.model && (!params.provider || entry.provider === params.provider),
     );
-    if (modelEntry) {
-      if (modelEntry.input?.includes("image")) {
-        return true;
-      }
-      // Legacy safety shim for stale persisted Foundry rows that predate
-      // provider-owned capability normalization.
-      const normalizedProvider = params.provider?.trim().toLowerCase();
-      const normalizedCandidates = [
-        params.model.trim().toLowerCase(),
-        typeof modelEntry.name === "string" ? modelEntry.name.trim().toLowerCase() : "",
-      ].filter(Boolean);
-      if (
-        normalizedProvider === "microsoft-foundry" &&
-        normalizedCandidates.some(
-          (candidate) =>
-            candidate.startsWith("gpt-") ||
-            candidate.startsWith("o1") ||
-            candidate.startsWith("o3") ||
-            candidate.startsWith("o4") ||
-            candidate === "computer-use-preview",
-        )
-      ) {
-        return true;
-      }
-      return false;
-    }
-    return false;
+    return modelEntry ? (modelEntry.input?.includes("image") ?? false) : false;
   } catch {
     return false;
   }
@@ -1317,6 +1291,7 @@ export function buildGatewaySessionRow(params: {
     endedAt: subagentRun ? subagentEndedAt : entry?.endedAt,
     runtimeMs: subagentRun ? subagentRuntimeMs : entry?.runtimeMs,
     parentSessionKey: subagentOwner || entry?.parentSessionKey,
+    previousSessionKey: entry?.previousSessionKey,
     childSessions,
     responseUsage: entry?.responseUsage,
     modelProvider,

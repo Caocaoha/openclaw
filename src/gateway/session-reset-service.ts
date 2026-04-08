@@ -381,6 +381,7 @@ export async function performGatewaySessionReset(params: {
   key: string;
   reason: "new" | "reset";
   commandSource: string;
+  preserveHistory?: boolean;
 }): Promise<
   | { ok: true; key: string; entry: SessionEntry }
   | { ok: false; error: ReturnType<typeof errorShape> }
@@ -438,12 +439,34 @@ export async function performGatewaySessionReset(params: {
     const nextSessionId = randomUUID();
     const sessionFile = resolveSessionFilePath(
       nextSessionId,
-      currentEntry?.sessionFile ? { sessionFile: currentEntry.sessionFile } : undefined,
+      // When preserveHistory=true (/new), new session must use a fresh file so old history is not overwritten.
+      // When preserveHistory=false (/reset), reuse old file path (existing behavior).
+      !params.preserveHistory && currentEntry?.sessionFile
+        ? { sessionFile: currentEntry.sessionFile }
+        : undefined,
       resolveSessionFilePathOptions({
         storePath,
         agentId: sessionAgentId,
       }),
     );
+    // When preserveHistory=true (i.e. /new), archive the old session at a compound key
+    // so it appears as a separate history entry in the sidebar.
+    let parentSessionKey = currentEntry?.parentSessionKey;
+    let previousSessionKey: string | undefined;
+    if (params.preserveHistory && currentEntry) {
+      const oldEntryKey = `${primaryKey}:${currentEntry.sessionId}`;
+      const archivedEntry: SessionEntry = {
+        ...currentEntry,
+        updatedAt: Date.now(), // ensure recent updatedAt so activeMinutes filter doesn't hide it
+        endedAt: Date.now(),
+        status: "done",
+        previousSessionKey: primaryKey,
+      };
+      store[oldEntryKey] = archivedEntry;
+      parentSessionKey = oldEntryKey;
+      previousSessionKey = oldEntryKey;
+    }
+
     const nextEntry: SessionEntry = {
       sessionId: nextSessionId,
       sessionFile,
@@ -479,7 +502,8 @@ export async function performGatewaySessionReset(params: {
       queueDrop: currentEntry?.queueDrop,
       spawnedBy: currentEntry?.spawnedBy,
       spawnedWorkspaceDir: currentEntry?.spawnedWorkspaceDir,
-      parentSessionKey: currentEntry?.parentSessionKey,
+      parentSessionKey,
+      previousSessionKey,
       forkedFromParent: currentEntry?.forkedFromParent,
       spawnDepth: currentEntry?.spawnDepth,
       subagentRole: currentEntry?.subagentRole,
@@ -493,6 +517,9 @@ export async function performGatewaySessionReset(params: {
       space: currentEntry?.space,
       origin: snapshotSessionOrigin(currentEntry),
       deliveryContext: currentEntry?.deliveryContext,
+      cliSessionBindings: currentEntry?.cliSessionBindings,
+      cliSessionIds: currentEntry?.cliSessionIds,
+      claudeCliSessionId: currentEntry?.claudeCliSessionId,
       lastChannel: currentEntry?.lastChannel,
       lastTo: currentEntry?.lastTo,
       lastAccountId: currentEntry?.lastAccountId,
@@ -516,13 +543,18 @@ export async function performGatewaySessionReset(params: {
     reason: params.reason,
   });
 
-  const archivedTranscripts = archiveSessionTranscriptsForSessionDetailed({
-    sessionId: oldSessionId,
-    storePath,
-    sessionFile: oldSessionFile,
-    agentId: target.agentId,
-    reason: "reset",
-  });
+  // When preserveHistory=true (/new), keep the old transcript file in place so the
+  // archived session entry can still read its history. Do NOT rename/move it.
+  // When preserveHistory=false (/reset), archive (rename) the transcript as usual.
+  const archivedTranscripts = params.preserveHistory
+    ? []
+    : archiveSessionTranscriptsForSessionDetailed({
+        sessionId: oldSessionId,
+        storePath,
+        sessionFile: oldSessionFile,
+        agentId: target.agentId,
+        reason: "reset",
+      });
   fs.mkdirSync(path.dirname(next.sessionFile as string), { recursive: true });
   if (!fs.existsSync(next.sessionFile as string)) {
     const header = {
