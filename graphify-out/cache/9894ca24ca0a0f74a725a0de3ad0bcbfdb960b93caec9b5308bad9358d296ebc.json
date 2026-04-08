@@ -1,0 +1,1 @@
+{"nodes": [{"id": "invoke_types", "label": "invoke-types.ts", "file_type": "code", "source_file": "src/node-host/invoke-types.ts", "source_location": "L1"}], "edges": [{"source": "invoke_types", "target": "exec_approvals_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "src/node-host/invoke-types.ts", "source_location": "L1", "weight": 1.0}]}

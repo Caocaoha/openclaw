@@ -1,0 +1,1 @@
+{"nodes": [{"id": "version", "label": "version.js", "file_type": "code", "source_file": "node_modules/css-tree/lib/version.js", "source_location": "L1"}], "edges": [{"source": "version", "target": "module", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/css-tree/lib/version.js", "source_location": "L1", "weight": 1.0}]}

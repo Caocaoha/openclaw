@@ -1,0 +1,1 @@
+{"nodes": [{"id": "re2", "label": "re2.ts", "file_type": "code", "source_file": "node_modules/ajv/lib/runtime/re2.ts", "source_location": "L1"}], "edges": [{"source": "re2", "target": "re2", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/ajv/lib/runtime/re2.ts", "source_location": "L1", "weight": 1.0}]}

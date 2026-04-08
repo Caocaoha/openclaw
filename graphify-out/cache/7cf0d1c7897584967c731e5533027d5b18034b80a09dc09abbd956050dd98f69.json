@@ -1,0 +1,1 @@
+{"nodes": [{"id": "native_promise_only", "label": "native-promise-only.js", "file_type": "code", "source_file": "node_modules/any-promise/register/native-promise-only.js", "source_location": "L1"}], "edges": []}

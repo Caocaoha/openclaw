@@ -1,0 +1,1 @@
+{"nodes": [{"id": "ruby_dt3szilf", "label": "ruby-DT3SzIlf.js", "file_type": "code", "source_file": "dist/ruby-DT3SzIlf.js", "source_location": "L1"}], "edges": [{"source": "ruby_dt3szilf", "target": "ruby_d4cal_wd_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/ruby-DT3SzIlf.js", "source_location": "L1", "weight": 1.0}]}

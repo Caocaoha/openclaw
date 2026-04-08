@@ -1,0 +1,1 @@
+{"nodes": [{"id": "scope_d", "label": "scope.d.ts", "file_type": "code", "source_file": "node_modules/ast-types/lib/scope.d.ts", "source_location": "L1"}], "edges": [{"source": "scope_d", "target": "types", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/ast-types/lib/scope.d.ts", "source_location": "L1", "weight": 1.0}]}

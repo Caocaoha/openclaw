@@ -1,0 +1,1 @@
+{"nodes": [{"id": "utilities", "label": "utilities.h", "file_type": "code", "source_file": "node_modules/sharp/src/utilities.h", "source_location": "L1"}], "edges": [{"source": "utilities", "target": "napi", "relation": "imports", "confidence": "EXTRACTED", "source_file": "node_modules/sharp/src/utilities.h", "source_location": "L9", "weight": 1.0}]}

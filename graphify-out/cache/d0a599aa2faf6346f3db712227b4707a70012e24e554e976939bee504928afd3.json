@@ -1,0 +1,1 @@
+{"nodes": [{"id": "transport_exit_on_ready", "label": "transport-exit-on-ready.ts", "file_type": "code", "source_file": "node_modules/pino/test/fixtures/ts/transport-exit-on-ready.ts", "source_location": "L1"}], "edges": []}

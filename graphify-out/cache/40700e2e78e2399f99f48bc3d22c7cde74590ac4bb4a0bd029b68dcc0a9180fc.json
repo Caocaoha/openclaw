@@ -1,0 +1,1 @@
+{"nodes": [{"id": "r_bnopw3vz", "label": "r-BnOPw3VZ.js", "file_type": "code", "source_file": "dist/r-BnOPw3VZ.js", "source_location": "L1"}], "edges": [{"source": "r_bnopw3vz", "target": "r_d6hcxkut_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/r-BnOPw3VZ.js", "source_location": "L1", "weight": 1.0}]}

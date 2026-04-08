@@ -1,0 +1,1 @@
+{"nodes": [{"id": "nginx_ue0rudx8", "label": "nginx-UE0RUdX8.js", "file_type": "code", "source_file": "dist/nginx-UE0RUdX8.js", "source_location": "L1"}], "edges": [{"source": "nginx_ue0rudx8", "target": "lua_zl7kg1g_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/nginx-UE0RUdX8.js", "source_location": "L1", "weight": 1.0}]}

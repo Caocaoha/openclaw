@@ -1,0 +1,1 @@
+{"nodes": [{"id": "getsanitizeddevtypescriptversion_d", "label": "getSanitizedDevTypeScriptVersion.d.ts", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock-mantle/node_modules/@aws-sdk/util-user-agent-node/dist-types/ts3.4/getSanitizedDevTypeScriptVersion.d.ts", "source_location": "L1"}], "edges": []}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "system_prompt_contribution_d", "label": "system-prompt-contribution.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/agents/system-prompt-contribution.d.ts", "source_location": "L1"}], "edges": []}

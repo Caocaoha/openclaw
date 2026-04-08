@@ -1,0 +1,1 @@
+{"nodes": [{"id": "targets", "label": "targets.js", "file_type": "code", "source_file": "dist-runtime/extensions/whatsapp/targets.js", "source_location": "L1"}], "edges": [{"source": "targets", "target": "targets_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist-runtime/extensions/whatsapp/targets.js", "source_location": "L2", "weight": 1.0}]}

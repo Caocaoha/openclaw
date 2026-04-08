@@ -1,0 +1,1 @@
+{"nodes": [{"id": "ip_address", "label": "ip-address.ts", "file_type": "code", "source_file": "node_modules/ip-address/src/ip-address.ts", "source_location": "L1"}], "edges": [{"source": "ip_address", "target": "helpers", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/ip-address/src/ip-address.ts", "source_location": "L5", "weight": 1.0}]}

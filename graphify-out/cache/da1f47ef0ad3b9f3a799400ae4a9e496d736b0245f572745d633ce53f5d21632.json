@@ -1,0 +1,1 @@
+{"nodes": [{"id": "legacy_config_migrations_d", "label": "legacy-config-migrations.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/commands/doctor/shared/legacy-config-migrations.d.ts", "source_location": "L1"}], "edges": []}

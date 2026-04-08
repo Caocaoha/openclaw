@@ -1,0 +1,1 @@
+{"nodes": [{"id": "account_id_endpoint_d", "label": "account-id-endpoint.d.ts", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock-mantle/node_modules/@aws-sdk/core/account-id-endpoint.d.ts", "source_location": "L1"}], "edges": []}

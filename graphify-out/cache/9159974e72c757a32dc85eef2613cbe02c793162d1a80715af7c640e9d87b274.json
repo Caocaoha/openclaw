@@ -1,0 +1,1 @@
+{"nodes": [{"id": "cache_d", "label": "cache.d.ts", "file_type": "code", "source_file": "node_modules/undici-types/cache.d.ts", "source_location": "L1"}], "edges": [{"source": "cache_d", "target": "fetch", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/undici-types/cache.d.ts", "source_location": "L1", "weight": 1.0}]}

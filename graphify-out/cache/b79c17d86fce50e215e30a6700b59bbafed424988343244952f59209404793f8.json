@@ -1,0 +1,1 @@
+{"nodes": [{"id": "perl_bqnsfbng", "label": "perl-BQnSFBNg.js", "file_type": "code", "source_file": "dist/perl-BQnSFBNg.js", "source_location": "L1"}], "edges": [{"source": "perl_bqnsfbng", "target": "perl_fwaih2ht_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/perl-BQnSFBNg.js", "source_location": "L1", "weight": 1.0}]}

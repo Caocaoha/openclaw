@@ -1,0 +1,1 @@
+{"nodes": [{"id": "globals_d", "label": "globals.d.ts", "file_type": "code", "source_file": "node_modules/with/lib/globals.d.ts", "source_location": "L1"}], "edges": [{"source": "globals_d", "target": "types", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/with/lib/globals.d.ts", "source_location": "L1", "weight": 1.0}]}

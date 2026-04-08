@@ -1,0 +1,1 @@
+{"nodes": [{"id": "lua_fq8lklbk", "label": "lua-fQ8lklBK.js", "file_type": "code", "source_file": "dist/lua-fQ8lklBK.js", "source_location": "L1"}], "edges": [{"source": "lua_fq8lklbk", "target": "lua_zl7kg1g_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/lua-fQ8lklBK.js", "source_location": "L1", "weight": 1.0}]}

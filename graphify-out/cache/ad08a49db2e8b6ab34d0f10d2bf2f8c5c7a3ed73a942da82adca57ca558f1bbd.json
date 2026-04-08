@@ -1,0 +1,1 @@
+{"nodes": [{"id": "test_api", "label": "test-api.js", "file_type": "code", "source_file": "dist/extensions/msteams/test-api.js", "source_location": "L1"}], "edges": [{"source": "test_api", "target": "channel_bpgttjal_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/extensions/msteams/test-api.js", "source_location": "L1", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "system_prompt_cache_boundary_d", "label": "system-prompt-cache-boundary.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/agents/system-prompt-cache-boundary.d.ts", "source_location": "L1"}], "edges": []}

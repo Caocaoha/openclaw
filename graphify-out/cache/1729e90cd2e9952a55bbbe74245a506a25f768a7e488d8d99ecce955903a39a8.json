@@ -1,0 +1,1 @@
+{"nodes": [{"id": "hot_d", "label": "hot.d.ts", "file_type": "code", "source_file": "node_modules/vite/types/hot.d.ts", "source_location": "L1"}], "edges": [{"source": "hot_d", "target": "customevent_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/vite/types/hot.d.ts", "source_location": "L1", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "transport_exit_immediately_with_async_dest", "label": "transport-exit-immediately-with-async-dest.js", "file_type": "code", "source_file": "node_modules/pino/test/fixtures/transport-exit-immediately-with-async-dest.js", "source_location": "L1"}], "edges": []}

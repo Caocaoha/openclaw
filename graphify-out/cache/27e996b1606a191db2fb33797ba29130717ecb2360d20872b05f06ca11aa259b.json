@@ -1,0 +1,1 @@
+{"nodes": [{"id": "auth_rate_limit_d", "label": "auth-rate-limit.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/gateway/auth-rate-limit.d.ts", "source_location": "L1"}], "edges": []}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "node_d", "label": "node.d.ts", "file_type": "code", "source_file": "node_modules/linkedom/types/shared/node.d.ts", "source_location": "L1"}], "edges": [{"source": "node_d", "target": "symbols_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/linkedom/types/shared/node.d.ts", "source_location": "L12", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "erlang_b8yb3owq", "label": "erlang-B8YB3owQ.js", "file_type": "code", "source_file": "dist/erlang-B8YB3owQ.js", "source_location": "L1"}], "edges": [{"source": "erlang_b8yb3owq", "target": "markdown_dwjjhmdh_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/erlang-B8YB3owQ.js", "source_location": "L1", "weight": 1.0}]}

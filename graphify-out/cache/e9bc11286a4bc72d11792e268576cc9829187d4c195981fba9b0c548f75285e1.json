@@ -1,0 +1,1 @@
+{"nodes": [{"id": "rtfm_d", "label": "rtfm.d.ts", "file_type": "code", "source_file": "node_modules/@twurple/common/lib/rtfm.d.ts", "source_location": "L1"}], "edges": [{"source": "rtfm_d", "target": "shared_utils", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/@twurple/common/lib/rtfm.d.ts", "source_location": "L1", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "usagetypes", "label": "usageTypes.ts", "file_type": "code", "source_file": "ui/src/ui/views/usageTypes.ts", "source_location": "L1"}], "edges": [{"source": "usagetypes", "target": "usage_types_ts", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "ui/src/ui/views/usageTypes.ts", "source_location": "L1", "weight": 1.0}]}

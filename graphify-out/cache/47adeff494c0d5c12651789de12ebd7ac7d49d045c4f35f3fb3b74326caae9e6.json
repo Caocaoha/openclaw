@@ -1,0 +1,1 @@
+{"nodes": [{"id": "isvirtualhostables3bucket_d", "label": "isVirtualHostableS3Bucket.d.ts", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock/node_modules/@aws-sdk/util-endpoints/dist-types/ts3.4/lib/aws/isVirtualHostableS3Bucket.d.ts", "source_location": "L1"}], "edges": []}

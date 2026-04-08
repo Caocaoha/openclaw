@@ -1,0 +1,1 @@
+{"nodes": [{"id": "ssrf_d", "label": "ssrf.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/test-helpers/ssrf.d.ts", "source_location": "L1"}], "edges": [{"source": "ssrf_d", "target": "ssrf_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/plugin-sdk/src/test-helpers/ssrf.d.ts", "source_location": "L1", "weight": 1.0}]}

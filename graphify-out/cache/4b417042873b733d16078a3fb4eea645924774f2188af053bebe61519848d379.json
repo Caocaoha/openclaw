@@ -1,0 +1,1 @@
+{"nodes": [{"id": "os_d", "label": "os.d.ts", "file_type": "code", "source_file": "node_modules/@types/node/os.d.ts", "source_location": "L1"}], "edges": [{"source": "os_d", "target": "buffer", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/@types/node/os.d.ts", "source_location": "L11", "weight": 1.0}]}

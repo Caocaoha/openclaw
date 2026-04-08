@@ -1,0 +1,1 @@
+{"nodes": [{"id": "getownid", "label": "getOwnId.js", "file_type": "code", "source_file": "node_modules/zca-js/dist/apis/getOwnId.js", "source_location": "L1"}], "edges": [{"source": "getownid", "target": "utils_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/zca-js/dist/apis/getOwnId.js", "source_location": "L1", "weight": 1.0}]}

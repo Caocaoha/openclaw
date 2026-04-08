@@ -1,0 +1,1 @@
+{"nodes": [{"id": "jison_xfgwqcb", "label": "jison--xFGwqcB.js", "file_type": "code", "source_file": "dist/jison--xFGwqcB.js", "source_location": "L1"}], "edges": [{"source": "jison_xfgwqcb", "target": "javascript_dnepjywr_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/jison--xFGwqcB.js", "source_location": "L1", "weight": 1.0}]}

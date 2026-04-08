@@ -1,0 +1,1 @@
+{"nodes": [{"id": "drive_schema", "label": "drive-schema.ts", "file_type": "code", "source_file": "extensions/feishu/src/drive-schema.ts", "source_location": "L1"}], "edges": [{"source": "drive_schema", "target": "typebox", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "extensions/feishu/src/drive-schema.ts", "source_location": "L1", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "embeddings_ollama_d", "label": "embeddings-ollama.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/memory-host-sdk/host/embeddings-ollama.d.ts", "source_location": "L1"}], "edges": []}

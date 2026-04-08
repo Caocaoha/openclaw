@@ -1,0 +1,1 @@
+{"nodes": [{"id": "gateway_bekon8kb", "label": "gateway-BekON8kb.js", "file_type": "code", "source_file": "dist/gateway-BekON8kb.js", "source_location": "L1"}], "edges": [{"source": "gateway_bekon8kb", "target": "gateway_bichx4vh_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/gateway-BekON8kb.js", "source_location": "L1", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "token", "label": "token.js", "file_type": "code", "source_file": "dist-runtime/extensions/github-copilot/token.js", "source_location": "L1"}], "edges": [{"source": "token", "target": "token_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist-runtime/extensions/github-copilot/token.js", "source_location": "L2", "weight": 1.0}]}

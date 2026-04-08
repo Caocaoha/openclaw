@@ -1,0 +1,1 @@
+{"nodes": [{"id": "transport_exit_immediately", "label": "transport-exit-immediately.js", "file_type": "code", "source_file": "node_modules/pino/test/fixtures/transport-exit-immediately.js", "source_location": "L1"}], "edges": []}

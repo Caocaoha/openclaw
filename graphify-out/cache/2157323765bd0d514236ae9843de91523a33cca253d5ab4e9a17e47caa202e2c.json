@@ -1,0 +1,1 @@
+{"nodes": [{"id": "targets_ckxkxw1l", "label": "targets-CkXkxW1l.js", "file_type": "code", "source_file": "dist/targets-CkXkxW1l.js", "source_location": "L1"}], "edges": [{"source": "targets_ckxkxw1l", "target": "send_dea3yigz_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/targets-CkXkxW1l.js", "source_location": "L1", "weight": 1.0}]}

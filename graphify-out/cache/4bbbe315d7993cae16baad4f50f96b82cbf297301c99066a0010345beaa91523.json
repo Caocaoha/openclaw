@@ -1,0 +1,1 @@
+{"nodes": [{"id": "getcredentialsfilepath_d", "label": "getCredentialsFilepath.d.ts", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock/node_modules/@smithy/shared-ini-file-loader/dist-types/getCredentialsFilepath.d.ts", "source_location": "L1"}], "edges": []}

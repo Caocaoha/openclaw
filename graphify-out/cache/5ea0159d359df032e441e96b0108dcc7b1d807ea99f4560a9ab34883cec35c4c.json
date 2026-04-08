@@ -1,0 +1,1 @@
+{"nodes": [{"id": "local_d", "label": "local.d.ts", "file_type": "code", "source_file": "node_modules/jose/dist/types/jwks/local.d.ts", "source_location": "L1"}], "edges": [{"source": "local_d", "target": "types_d_ts", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/jose/dist/types/jwks/local.d.ts", "source_location": "L6", "weight": 1.0}]}

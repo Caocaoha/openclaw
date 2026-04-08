@@ -1,0 +1,1 @@
+{"nodes": [{"id": "chmodr_d", "label": "chmodr.d.ts", "file_type": "code", "source_file": "node_modules/chmodrp/utils/chmodr.d.ts", "source_location": "L1"}], "edges": [{"source": "chmodr_d", "target": "node_fs", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/chmodrp/utils/chmodr.d.ts", "source_location": "L2", "weight": 1.0}]}

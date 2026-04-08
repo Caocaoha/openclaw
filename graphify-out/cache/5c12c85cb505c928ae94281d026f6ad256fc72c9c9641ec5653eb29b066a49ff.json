@@ -1,0 +1,1 @@
+{"nodes": [{"id": "dist_dwrq_o8", "label": "dist-DWrq--o8.js", "file_type": "code", "source_file": "dist/dist-DWrq--o8.js", "source_location": "L1"}], "edges": [{"source": "dist_dwrq_o8", "target": "dist_cciryadh_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/dist-DWrq--o8.js", "source_location": "L1", "weight": 1.0}]}

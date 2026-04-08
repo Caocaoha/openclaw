@@ -1,0 +1,1 @@
+{"nodes": [{"id": "cognitoproviderparameters", "label": "CognitoProviderParameters.js", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock-mantle/node_modules/@aws-sdk/credential-provider-cognito-identity/dist-es/CognitoProviderParameters.js", "source_location": "L1"}], "edges": []}

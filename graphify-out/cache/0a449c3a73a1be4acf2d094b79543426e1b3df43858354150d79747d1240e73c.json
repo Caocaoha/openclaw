@@ -1,0 +1,1 @@
+{"nodes": [{"id": "uia", "label": "uia.ts", "file_type": "code", "source_file": "node_modules/matrix-js-sdk/src/@types/uia.ts", "source_location": "L1"}], "edges": [{"source": "uia", "target": "interactive_auth_ts", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/matrix-js-sdk/src/@types/uia.ts", "source_location": "L17", "weight": 1.0}]}

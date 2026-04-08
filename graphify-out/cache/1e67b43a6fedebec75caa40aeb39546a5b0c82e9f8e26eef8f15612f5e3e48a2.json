@@ -1,0 +1,1 @@
+{"nodes": [{"id": "extract_d", "label": "extract.d.ts", "file_type": "code", "source_file": "node_modules/tar/dist/commonjs/extract.d.ts", "source_location": "L1"}], "edges": [{"source": "extract_d", "target": "unpack_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/tar/dist/commonjs/extract.d.ts", "source_location": "L1", "weight": 1.0}]}

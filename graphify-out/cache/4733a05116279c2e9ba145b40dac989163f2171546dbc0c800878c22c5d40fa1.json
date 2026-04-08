@@ -1,0 +1,1 @@
+{"nodes": [{"id": "use_unicode_aliases", "label": "use-unicode-aliases.js", "file_type": "code", "source_file": "dist/extensions/diffs/node_modules/oniguruma-parser/dist/optimizer/transforms/use-unicode-aliases.js", "source_location": "L1"}], "edges": []}

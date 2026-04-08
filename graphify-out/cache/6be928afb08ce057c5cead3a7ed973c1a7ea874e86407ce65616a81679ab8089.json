@@ -1,0 +1,1 @@
+{"nodes": [{"id": "getresolvedsigningregion_d", "label": "getResolvedSigningRegion.d.ts", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock/node_modules/@smithy/config-resolver/dist-types/regionInfo/getResolvedSigningRegion.d.ts", "source_location": "L1"}], "edges": []}

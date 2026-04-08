@@ -1,0 +1,1 @@
+{"nodes": [{"id": "glsl_txrche79", "label": "glsl-tXRCHE79.js", "file_type": "code", "source_file": "dist/glsl-tXRCHE79.js", "source_location": "L1"}], "edges": [{"source": "glsl_txrche79", "target": "c_nmypn0io_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/glsl-tXRCHE79.js", "source_location": "L1", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "feature_d", "label": "feature.d.ts", "file_type": "code", "source_file": "node_modules/matrix-js-sdk/lib/feature.d.ts", "source_location": "L1"}], "edges": [{"source": "feature_d", "target": "client_ts", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/matrix-js-sdk/lib/feature.d.ts", "source_location": "L1", "weight": 1.0}]}

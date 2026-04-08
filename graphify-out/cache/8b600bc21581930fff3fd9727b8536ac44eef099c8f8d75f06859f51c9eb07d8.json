@@ -1,0 +1,1 @@
+{"nodes": [{"id": "send_zrbx9tdv", "label": "send-zrBX9Tdv.js", "file_type": "code", "source_file": "dist/send-zrBX9Tdv.js", "source_location": "L1"}], "edges": [{"source": "send_zrbx9tdv", "target": "send_blixahig_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/send-zrBX9Tdv.js", "source_location": "L1", "weight": 1.0}]}

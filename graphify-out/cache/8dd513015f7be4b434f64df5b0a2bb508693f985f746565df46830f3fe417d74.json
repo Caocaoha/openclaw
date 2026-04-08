@@ -1,0 +1,1 @@
+{"nodes": [{"id": "build", "label": "build.js", "file_type": "code", "source_file": "node_modules/vite/dist/node/chunks/build.js", "source_location": "L1"}], "edges": [{"source": "build", "target": "node_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/vite/dist/node/chunks/build.js", "source_location": "L1", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "fromtemporarycredentials_browser", "label": "fromTemporaryCredentials.browser.js", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock-mantle/node_modules/@aws-sdk/credential-providers/dist-cjs/fromTemporaryCredentials.browser.js", "source_location": "L1"}], "edges": []}

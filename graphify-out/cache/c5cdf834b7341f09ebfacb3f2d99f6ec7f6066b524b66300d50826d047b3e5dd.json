@@ -1,0 +1,1 @@
+{"nodes": [{"id": "deps_d", "label": "deps.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/cli/deps.d.ts", "source_location": "L1"}], "edges": [{"source": "deps_d", "target": "send_deps_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/plugin-sdk/src/cli/deps.d.ts", "source_location": "L1", "weight": 1.0}]}

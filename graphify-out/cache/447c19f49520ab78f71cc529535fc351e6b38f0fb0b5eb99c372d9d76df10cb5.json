@@ -1,0 +1,1 @@
+{"nodes": [{"id": "tsx_cm_fodzi", "label": "tsx-CM_FodZi.js", "file_type": "code", "source_file": "dist/tsx-CM_FodZi.js", "source_location": "L1"}], "edges": [{"source": "tsx_cm_fodzi", "target": "tsx_lb6ogn_7_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/tsx-CM_FodZi.js", "source_location": "L1", "weight": 1.0}]}

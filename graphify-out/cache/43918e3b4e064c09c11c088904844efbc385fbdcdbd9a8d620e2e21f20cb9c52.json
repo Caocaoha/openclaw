@@ -1,0 +1,1 @@
+{"nodes": [{"id": "tsx_name_repro", "label": "tsx-name-repro.ts", "file_type": "code", "source_file": "scripts/repro/tsx-name-repro.ts", "source_location": "L1"}], "edges": [{"source": "tsx_name_repro", "target": "subsystem_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "scripts/repro/tsx-name-repro.ts", "source_location": "L1", "weight": 1.0}]}

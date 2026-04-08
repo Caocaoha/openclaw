@@ -1,0 +1,1 @@
+{"nodes": [{"id": "manage_d", "label": "manage.d.ts", "file_type": "code", "source_file": "node_modules/@telegraf/types/manage.d.ts", "source_location": "L1"}], "edges": [{"source": "manage_d", "target": "message_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/@telegraf/types/manage.d.ts", "source_location": "L1", "weight": 1.0}]}

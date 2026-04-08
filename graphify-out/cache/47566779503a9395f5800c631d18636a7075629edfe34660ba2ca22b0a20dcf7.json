@@ -1,0 +1,1 @@
+{"nodes": [{"id": "worker_pipeline", "label": "worker-pipeline.js", "file_type": "code", "source_file": "node_modules/pino-abstract-transport/test/fixtures/worker-pipeline.js", "source_location": "L1"}], "edges": []}

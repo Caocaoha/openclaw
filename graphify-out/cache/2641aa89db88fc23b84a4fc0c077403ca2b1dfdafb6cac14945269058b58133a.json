@@ -1,0 +1,1 @@
+{"nodes": [{"id": "pl", "label": "pl.ts", "file_type": "code", "source_file": "ui/src/i18n/locales/pl.ts", "source_location": "L1"}], "edges": [{"source": "pl", "target": "types_ts", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "ui/src/i18n/locales/pl.ts", "source_location": "L1", "weight": 1.0}]}

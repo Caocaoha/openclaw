@@ -1,0 +1,1 @@
+{"nodes": [{"id": "render_d", "label": "render.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/markdown/render.d.ts", "source_location": "L1"}], "edges": [{"source": "render_d", "target": "ir_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/plugin-sdk/src/markdown/render.d.ts", "source_location": "L1", "weight": 1.0}]}

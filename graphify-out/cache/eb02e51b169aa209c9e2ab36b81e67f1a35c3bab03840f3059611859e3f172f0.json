@@ -1,0 +1,1 @@
+{"nodes": [{"id": "java_z_azmm1f", "label": "java-z-Azmm1f.js", "file_type": "code", "source_file": "dist/java-z-Azmm1f.js", "source_location": "L1"}], "edges": [{"source": "java_z_azmm1f", "target": "java_bymywfua_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/java-z-Azmm1f.js", "source_location": "L1", "weight": 1.0}]}

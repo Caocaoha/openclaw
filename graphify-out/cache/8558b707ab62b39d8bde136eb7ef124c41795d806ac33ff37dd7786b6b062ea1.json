@@ -1,0 +1,1 @@
+{"nodes": [{"id": "haml_bgwz9je5", "label": "haml-BGwz9je5.js", "file_type": "code", "source_file": "dist/haml-BGwz9je5.js", "source_location": "L1"}], "edges": [{"source": "haml_bgwz9je5", "target": "haml_dqvdjhoi_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/haml-BGwz9je5.js", "source_location": "L1", "weight": 1.0}]}

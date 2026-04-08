@@ -1,0 +1,1 @@
+{"nodes": [{"id": "sessions_cloi_bat", "label": "sessions-CLoi-BAT.js", "file_type": "code", "source_file": "dist/sessions-CLoi-BAT.js", "source_location": "L1"}], "edges": [{"source": "sessions_cloi_bat", "target": "sessions_bamjxnye_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/sessions-CLoi-BAT.js", "source_location": "L1", "weight": 1.0}]}

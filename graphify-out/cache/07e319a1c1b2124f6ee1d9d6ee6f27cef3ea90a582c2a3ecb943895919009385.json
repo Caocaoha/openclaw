@@ -1,0 +1,1 @@
+{"nodes": [{"id": "collect_stream_body", "label": "collect-stream-body.js", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock/node_modules/@smithy/smithy-client/dist-es/collect-stream-body.js", "source_location": "L1"}], "edges": []}

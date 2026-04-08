@@ -1,0 +1,1 @@
+{"nodes": [{"id": "buffer_d", "label": "buffer.d.ts", "file_type": "code", "source_file": "node_modules/@types/node/buffer.d.ts", "source_location": "L1"}], "edges": [{"source": "buffer_d", "target": "web", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/@types/node/buffer.d.ts", "source_location": "L47", "weight": 1.0}]}

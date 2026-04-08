@@ -1426,7 +1426,17 @@ export const chatHandlers: GatewayRequestHandlers = {
     // marker injection on the model's image capability. This prevents opaque
     // media:// markers from leaking into prompts for text-only model runs.
     const rawSessionKey = p.sessionKey;
+    console.log("[DEBUG] chat.send called", {
+      rawSessionKey,
+      messageLength: p.message?.length,
+      messagePrefix: p.message?.slice(0, 80),
+      timestamp: Date.now(),
+    });
     const { cfg, entry, canonicalKey: sessionKey } = loadSessionEntry(rawSessionKey);
+    console.log("[DEBUG] loadSessionEntry resolved", {
+      input: rawSessionKey,
+      output: { key: sessionKey, label: entry?.label, sessionId: entry?.sessionId, endedAt: entry?.endedAt },
+    });
 
     let parsedMessage = inboundMessage;
     let parsedImages: ChatImageContent[] = [];

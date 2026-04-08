@@ -1,0 +1,1 @@
+{"nodes": [{"id": "send_bgzqsojx", "label": "send-BgZqsOjX.js", "file_type": "code", "source_file": "dist/send-BgZqsOjX.js", "source_location": "L1"}], "edges": [{"source": "send_bgzqsojx", "target": "send_dea3yigz_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/send-BgZqsOjX.js", "source_location": "L1", "weight": 1.0}]}

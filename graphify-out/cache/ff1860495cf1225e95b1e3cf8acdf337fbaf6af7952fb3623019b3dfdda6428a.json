@@ -1,0 +1,1 @@
+{"nodes": [{"id": "glsl_dpv1qmex", "label": "glsl-DPv1qmEx.js", "file_type": "code", "source_file": "dist/glsl-DPv1qmEx.js", "source_location": "L1"}], "edges": [{"source": "glsl_dpv1qmex", "target": "glsl_txrche79_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/glsl-DPv1qmEx.js", "source_location": "L1", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "sparql_bizenkoe", "label": "sparql-Bizenkoe.js", "file_type": "code", "source_file": "dist/sparql-Bizenkoe.js", "source_location": "L1"}], "edges": [{"source": "sparql_bizenkoe", "target": "turtle_dynj21wg_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/sparql-Bizenkoe.js", "source_location": "L1", "weight": 1.0}]}

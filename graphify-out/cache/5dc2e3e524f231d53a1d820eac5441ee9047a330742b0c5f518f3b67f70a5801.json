@@ -1,0 +1,1 @@
+{"nodes": [{"id": "outbound_b4rvcxe", "label": "outbound-B4RVCXE_.js", "file_type": "code", "source_file": "dist/outbound-B4RVCXE_.js", "source_location": "L1"}], "edges": [{"source": "outbound_b4rvcxe", "target": "outbound_e4szfmdv_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/outbound-B4RVCXE_.js", "source_location": "L1", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "index_d", "label": "index.d.ts", "file_type": "code", "source_file": "node_modules/@types/express/index.d.ts", "source_location": "L1"}], "edges": [{"source": "index_d", "target": "express_serve_static_core", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/@types/express/index.d.ts", "source_location": "L12", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "cli", "label": "cli.js", "file_type": "code", "source_file": "node_modules/@bramus/specificity/bin/cli.js", "source_location": "L1"}], "edges": [{"source": "cli", "target": "index_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/@bramus/specificity/bin/cli.js", "source_location": "L2", "weight": 1.0}]}

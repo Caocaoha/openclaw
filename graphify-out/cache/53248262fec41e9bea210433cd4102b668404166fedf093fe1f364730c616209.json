@@ -1,0 +1,1 @@
+{"nodes": [{"id": "interactive_message", "label": "interactive-message.js", "file_type": "code", "source_file": "dist/extensions/slack/node_modules/@slack/bolt/dist/types/actions/interactive-message.js", "source_location": "L1"}], "edges": []}

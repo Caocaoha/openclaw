@@ -1,0 +1,1 @@
+{"nodes": [{"id": "s3expressidentity", "label": "S3ExpressIdentity.js", "file_type": "code", "source_file": "node_modules/@aws-sdk/middleware-sdk-s3/dist-es/s3-express/interfaces/S3ExpressIdentity.js", "source_location": "L1"}], "edges": []}

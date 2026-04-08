@@ -1,0 +1,1 @@
+{"nodes": [{"id": "getmachineid_bsd_d", "label": "getMachineId-bsd.d.ts", "file_type": "code", "source_file": "node_modules/@opentelemetry/resources/build/esnext/detectors/platform/node/machine-id/getMachineId-bsd.d.ts", "source_location": "L1"}], "edges": []}

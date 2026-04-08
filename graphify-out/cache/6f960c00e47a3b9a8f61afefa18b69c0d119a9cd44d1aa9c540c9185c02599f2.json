@@ -1,0 +1,1 @@
+{"nodes": [{"id": "kinds_d", "label": "kinds.d.ts", "file_type": "code", "source_file": "node_modules/ast-types/gen/kinds.d.ts", "source_location": "L1"}], "edges": [{"source": "kinds_d", "target": "namedtypes", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/ast-types/gen/kinds.d.ts", "source_location": "L1", "weight": 1.0}]}

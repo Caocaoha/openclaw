@@ -1,0 +1,1 @@
+{"nodes": [{"id": "file_lock", "label": "file-lock.js", "file_type": "code", "source_file": "dist/plugin-sdk/file-lock.js", "source_location": "L1"}], "edges": [{"source": "file_lock", "target": "file_lock_pcxxyqin_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/plugin-sdk/file-lock.js", "source_location": "L1", "weight": 1.0}]}

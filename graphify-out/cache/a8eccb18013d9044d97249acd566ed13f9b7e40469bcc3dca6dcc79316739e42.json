@@ -1,0 +1,1 @@
+{"nodes": [{"id": "mime_d", "label": "mime.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/media/mime.d.ts", "source_location": "L1"}], "edges": [{"source": "mime_d", "target": "constants_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/plugin-sdk/src/media/mime.d.ts", "source_location": "L1", "weight": 1.0}]}

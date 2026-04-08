@@ -1,0 +1,1 @@
+{"nodes": [{"id": "ja_jp", "label": "ja-JP.ts", "file_type": "code", "source_file": "ui/src/i18n/locales/ja-JP.ts", "source_location": "L1"}], "edges": [{"source": "ja_jp", "target": "types_ts", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "ui/src/i18n/locales/ja-JP.ts", "source_location": "L1", "weight": 1.0}]}

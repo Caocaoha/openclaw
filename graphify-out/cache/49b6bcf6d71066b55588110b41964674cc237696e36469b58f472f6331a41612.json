@@ -1,0 +1,1 @@
+{"nodes": [{"id": "transport_worker_data", "label": "transport-worker-data.js", "file_type": "code", "source_file": "node_modules/pino/test/fixtures/transport-worker-data.js", "source_location": "L1"}], "edges": []}

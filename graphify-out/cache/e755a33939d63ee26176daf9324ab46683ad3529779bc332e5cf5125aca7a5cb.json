@@ -1,0 +1,1 @@
+{"nodes": [{"id": "api_dxjlngck", "label": "api-DxJLNGcK.js", "file_type": "code", "source_file": "dist/api-DxJLNGcK.js", "source_location": "L1"}], "edges": [{"source": "api_dxjlngck", "target": "video_generation_core_duc6svec_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/api-DxJLNGcK.js", "source_location": "L1", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "less_moks1ksg", "label": "less-MOkS1KSg.js", "file_type": "code", "source_file": "dist/less-MOkS1KSg.js", "source_location": "L1"}], "edges": [{"source": "less_moks1ksg", "target": "less_dypu4epa_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/less-MOkS1KSg.js", "source_location": "L1", "weight": 1.0}]}

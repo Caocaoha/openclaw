@@ -1,0 +1,1 @@
+{"nodes": [{"id": "fork_d", "label": "fork.d.ts", "file_type": "code", "source_file": "node_modules/ast-types/fork.d.ts", "source_location": "L1"}], "edges": [{"source": "fork_d", "target": "types", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/ast-types/fork.d.ts", "source_location": "L1", "weight": 1.0}]}

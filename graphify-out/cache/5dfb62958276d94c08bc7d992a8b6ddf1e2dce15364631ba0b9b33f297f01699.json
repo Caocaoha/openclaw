@@ -1,0 +1,1 @@
+{"nodes": [{"id": "gdshader_bhxedll", "label": "gdshader-BHxedLL-.js", "file_type": "code", "source_file": "dist/gdshader-BHxedLL-.js", "source_location": "L1"}], "edges": [{"source": "gdshader_bhxedll", "target": "gdshader_c5ziqxrq_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/gdshader-BHxedLL-.js", "source_location": "L1", "weight": 1.0}]}

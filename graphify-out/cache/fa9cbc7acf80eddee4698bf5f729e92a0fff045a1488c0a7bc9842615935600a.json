@@ -1,0 +1,1 @@
+{"nodes": [{"id": "stsregiondefaultresolver_native_d", "label": "stsRegionDefaultResolver.native.d.ts", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock-mantle/node_modules/@aws-sdk/region-config-resolver/dist-types/regionConfig/stsRegionDefaultResolver.native.d.ts", "source_location": "L1"}], "edges": []}

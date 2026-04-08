@@ -1,0 +1,1 @@
+{"nodes": [{"id": "json_crtlwptm", "label": "json-CrtLwptm.js", "file_type": "code", "source_file": "dist/json-CrtLwptm.js", "source_location": "L1"}], "edges": [{"source": "json_crtlwptm", "target": "json_mubvpzwk_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/json-CrtLwptm.js", "source_location": "L1", "weight": 1.0}]}

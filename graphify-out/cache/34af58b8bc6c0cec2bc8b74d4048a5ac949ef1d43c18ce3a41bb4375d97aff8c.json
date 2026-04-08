@@ -1,0 +1,1 @@
+{"nodes": [{"id": "validatetokenkey_d", "label": "validateTokenKey.d.ts", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock/node_modules/@aws-sdk/credential-provider-sso/node_modules/@aws-sdk/token-providers/dist-types/validateTokenKey.d.ts", "source_location": "L1"}], "edges": []}

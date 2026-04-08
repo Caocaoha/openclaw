@@ -1,0 +1,1 @@
+{"nodes": [{"id": "go_gfecia0v", "label": "go-gFECIa0v.js", "file_type": "code", "source_file": "dist/go-gFECIa0v.js", "source_location": "L1"}], "edges": [{"source": "go_gfecia0v", "target": "go_cjqd3tbi_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/go-gFECIa0v.js", "source_location": "L1", "weight": 1.0}]}

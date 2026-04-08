@@ -1,0 +1,1 @@
+{"nodes": [{"id": "toutf8_browser", "label": "toUtf8.browser.js", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock/node_modules/@aws-crypto/util/node_modules/@smithy/util-utf8/dist-cjs/toUtf8.browser.js", "source_location": "L1"}], "edges": []}

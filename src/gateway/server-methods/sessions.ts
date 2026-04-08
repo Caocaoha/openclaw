@@ -506,6 +506,12 @@ export const sessionsHandlers: GatewayRequestHandlers = {
       store,
       opts: p,
     });
+    console.log("[DEBUG] sessions.list returning", {
+      count: result.sessions?.length,
+      keys: result.sessions?.map((s: any) => s.key),
+      labels: result.sessions?.map((s: any) => s.label),
+      sessionIds: result.sessions?.map((s: any) => s.sessionId),
+    });
     respond(true, result, undefined);
   },
   "sessions.subscribe": ({ client, context, respond }) => {

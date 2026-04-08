@@ -1,0 +1,1 @@
+{"nodes": [{"id": "getendpointfromconfig_browser_d", "label": "getEndpointFromConfig.browser.d.ts", "file_type": "code", "source_file": "node_modules/@smithy/middleware-endpoint/dist-types/adaptors/getEndpointFromConfig.browser.d.ts", "source_location": "L1"}], "edges": []}

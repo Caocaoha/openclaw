@@ -1,0 +1,1 @@
+{"nodes": [{"id": "sync", "label": "sync.js", "file_type": "code", "source_file": "node_modules/resolve/test/resolver/nested_symlinks/mylib/sync.js", "source_location": "L1"}], "edges": []}

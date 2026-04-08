@@ -1,0 +1,1 @@
+{"nodes": [{"id": "main_d", "label": "main.d.ts", "file_type": "code", "source_file": "node_modules/dotenv/lib/main.d.ts", "source_location": "L1"}], "edges": [{"source": "main_d", "target": "url", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/dotenv/lib/main.d.ts", "source_location": "L3", "weight": 1.0}]}

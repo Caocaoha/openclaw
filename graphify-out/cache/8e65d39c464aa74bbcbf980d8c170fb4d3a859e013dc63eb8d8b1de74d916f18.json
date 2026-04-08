@@ -1,0 +1,1 @@
+{"nodes": [{"id": "protocol_d", "label": "protocol.d.js", "file_type": "code", "source_file": "dist/extensions/diffs/node_modules/playwright-core/lib/server/firefox/protocol.d.js", "source_location": "L1"}], "edges": []}

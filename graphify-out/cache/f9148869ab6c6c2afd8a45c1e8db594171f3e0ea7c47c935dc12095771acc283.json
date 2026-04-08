@@ -1,0 +1,1 @@
+{"nodes": [{"id": "extract_thumbnail", "label": "extract-thumbnail.js", "file_type": "code", "source_file": "node_modules/exif-parser/cmd/extract-thumbnail.js", "source_location": "L1"}], "edges": []}

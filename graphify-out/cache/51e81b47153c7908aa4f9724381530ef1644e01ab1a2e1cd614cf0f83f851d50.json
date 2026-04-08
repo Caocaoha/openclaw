@@ -1,0 +1,1 @@
+{"nodes": [{"id": "ws_d", "label": "ws.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/infra/ws.d.ts", "source_location": "L1"}], "edges": [{"source": "ws_d", "target": "ws", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/plugin-sdk/src/infra/ws.d.ts", "source_location": "L1", "weight": 1.0}]}

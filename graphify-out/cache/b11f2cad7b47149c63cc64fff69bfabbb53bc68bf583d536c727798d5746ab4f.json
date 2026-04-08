@@ -1,0 +1,1 @@
+{"nodes": [{"id": "call_behkhphu", "label": "call-BEhkHphu.js", "file_type": "code", "source_file": "dist/call-BEhkHphu.js", "source_location": "L1"}], "edges": [{"source": "call_behkhphu", "target": "call_bamtrr7s_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/call-BEhkHphu.js", "source_location": "L1", "weight": 1.0}]}

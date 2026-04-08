@@ -1,0 +1,1 @@
+{"nodes": [{"id": "cairo_d3ccjg_g", "label": "cairo-D3ccjg-g.js", "file_type": "code", "source_file": "dist/cairo-D3ccjg-g.js", "source_location": "L1"}], "edges": [{"source": "cairo_d3ccjg_g", "target": "python_dwprdwpc_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/cairo-D3ccjg-g.js", "source_location": "L1", "weight": 1.0}]}

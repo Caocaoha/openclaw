@@ -1,0 +1,1 @@
+{"nodes": [{"id": "haxe_cjzox0pt", "label": "haxe-CjzOX0PT.js", "file_type": "code", "source_file": "dist/haxe-CjzOX0PT.js", "source_location": "L1"}], "edges": [{"source": "haxe_cjzox0pt", "target": "haxe_dzp_onv_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/haxe-CjzOX0PT.js", "source_location": "L1", "weight": 1.0}]}

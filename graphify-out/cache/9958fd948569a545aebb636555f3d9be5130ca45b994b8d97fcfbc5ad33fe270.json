@@ -1,0 +1,1 @@
+{"nodes": [{"id": "cookies_d", "label": "cookies.d.ts", "file_type": "code", "source_file": "node_modules/undici-types/cookies.d.ts", "source_location": "L1"}], "edges": [{"source": "cookies_d", "target": "fetch", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/undici-types/cookies.d.ts", "source_location": "L3", "weight": 1.0}]}

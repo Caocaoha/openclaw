@@ -1,0 +1,1 @@
+{"nodes": [{"id": "message_metadata", "label": "message-metadata.js", "file_type": "code", "source_file": "dist/extensions/slack/node_modules/@slack/types/dist/events/message-metadata.js", "source_location": "L1"}], "edges": []}

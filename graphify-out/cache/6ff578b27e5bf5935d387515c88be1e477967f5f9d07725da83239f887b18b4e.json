@@ -1,0 +1,1 @@
+{"nodes": [{"id": "api_chmdzr_j", "label": "api-CHMDZR-J.js", "file_type": "code", "source_file": "dist/api-CHMDZR-J.js", "source_location": "L1"}], "edges": [{"source": "api_chmdzr_j", "target": "models_czqrjit3_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/api-CHMDZR-J.js", "source_location": "L1", "weight": 1.0}]}

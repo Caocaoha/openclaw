@@ -1,0 +1,1 @@
+{"nodes": [{"id": "cmake_b1edx5xz", "label": "cmake-B1eDX5xZ.js", "file_type": "code", "source_file": "dist/cmake-B1eDX5xZ.js", "source_location": "L1"}], "edges": [{"source": "cmake_b1edx5xz", "target": "cmake_dqi5rgzf_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/cmake-B1eDX5xZ.js", "source_location": "L1", "weight": 1.0}]}

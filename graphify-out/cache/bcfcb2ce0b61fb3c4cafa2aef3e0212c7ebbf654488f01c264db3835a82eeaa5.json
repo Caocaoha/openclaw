@@ -1,0 +1,1 @@
+{"nodes": [{"id": "qml_bnzzpyes", "label": "qml-BnzzPyeS.js", "file_type": "code", "source_file": "dist/qml-BnzzPyeS.js", "source_location": "L1"}], "edges": [{"source": "qml_bnzzpyes", "target": "javascript_dnepjywr_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/qml-BnzzPyeS.js", "source_location": "L1", "weight": 1.0}]}

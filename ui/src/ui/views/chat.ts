@@ -1040,6 +1040,12 @@ export function renderChat(props: ChatProps) {
               return renderMessageGroup(item, {
                 onOpenSidebar: props.onOpenSidebar,
                 onReply: (replyInfo) => {
+                  console.log("[DEBUG] Reply button clicked", {
+                    replyKey: replyInfo.key,
+                    replyRole: replyInfo.role,
+                    replyText: replyInfo.text,
+                    currentSessionKey: props.sessionKey,
+                  });
                   vs.replyTo = replyInfo;
                   requestUpdate();
                 },
@@ -1203,6 +1209,12 @@ export function renderChat(props: ChatProps) {
         }
         // Prepend reply reference if replyTo is set
         if (vs.replyTo) {
+          console.log("[DEBUG] Sending reply", {
+            replyKey: vs.replyTo.key,
+            replyRole: vs.replyTo.role,
+            currentSessionKey: props.sessionKey,
+            messageLength: props.draft?.length,
+          });
           const replyRef = `[Replying to ${vs.replyTo.role}: "${vs.replyTo.text}"]\n`;
           props.onDraftChange(replyRef + props.draft);
           vs.replyTo = null;

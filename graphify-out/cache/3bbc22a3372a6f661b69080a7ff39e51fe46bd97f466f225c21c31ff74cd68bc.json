@@ -1,0 +1,1 @@
+{"nodes": [{"id": "stata_wrumnr9p", "label": "stata-WrUMnr9P.js", "file_type": "code", "source_file": "dist/stata-WrUMnr9P.js", "source_location": "L1"}], "edges": [{"source": "stata_wrumnr9p", "target": "sql_jsvzm0_v_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/stata-WrUMnr9P.js", "source_location": "L1", "weight": 1.0}]}

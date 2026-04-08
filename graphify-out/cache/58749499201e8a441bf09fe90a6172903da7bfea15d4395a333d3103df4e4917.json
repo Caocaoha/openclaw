@@ -1,0 +1,1 @@
+{"nodes": [{"id": "general_d", "label": "general.d.ts", "file_type": "code", "source_file": "node_modules/css-select/lib/esm/general.d.ts", "source_location": "L1"}], "edges": [{"source": "general_d", "target": "types_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/css-select/lib/esm/general.d.ts", "source_location": "L1", "weight": 1.0}]}

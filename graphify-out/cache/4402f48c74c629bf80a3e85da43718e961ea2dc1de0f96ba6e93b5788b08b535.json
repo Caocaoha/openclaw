@@ -1,0 +1,1 @@
+{"nodes": [{"id": "gettokenprovider_spec_d", "label": "getTokenProvider.spec.d.ts", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock-mantle/node_modules/@aws/bedrock-token-generator/dist/getTokenProvider.spec.d.ts", "source_location": "L1"}], "edges": []}

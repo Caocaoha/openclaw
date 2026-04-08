@@ -1,0 +1,1 @@
+{"nodes": [{"id": "endpointmode", "label": "EndpointMode.js", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock/node_modules/@smithy/credential-provider-imds/dist-es/config/EndpointMode.js", "source_location": "L1"}], "edges": []}

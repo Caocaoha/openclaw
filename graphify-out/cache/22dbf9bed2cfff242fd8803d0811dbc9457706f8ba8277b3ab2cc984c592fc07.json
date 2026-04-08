@@ -1,0 +1,1 @@
+{"nodes": [{"id": "global_setup", "label": "global-setup.ts", "file_type": "code", "source_file": "test/global-setup.ts", "source_location": "L1"}], "edges": [{"source": "global_setup", "target": "test_env", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "test/global-setup.ts", "source_location": "L1", "weight": 1.0}]}

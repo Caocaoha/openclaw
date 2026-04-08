@@ -1,0 +1,1 @@
+{"nodes": [{"id": "model_id", "label": "model-id.js", "file_type": "code", "source_file": "dist-runtime/extensions/xai/model-id.js", "source_location": "L1"}], "edges": [{"source": "model_id", "target": "model_id_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist-runtime/extensions/xai/model-id.js", "source_location": "L2", "weight": 1.0}]}

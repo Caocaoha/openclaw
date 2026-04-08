@@ -1,0 +1,1 @@
+{"nodes": [{"id": "hostdetector_d", "label": "HostDetector.d.ts", "file_type": "code", "source_file": "node_modules/@opentelemetry/resources/build/esm/detectors/platform/browser/HostDetector.d.ts", "source_location": "L1"}], "edges": []}

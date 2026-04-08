@@ -1,0 +1,1 @@
+{"nodes": [{"id": "setup_entry", "label": "setup-entry.ts", "file_type": "code", "source_file": "extensions/zalouser/setup-entry.ts", "source_location": "L1"}], "edges": [{"source": "setup_entry", "target": "channel_entry_contract", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "extensions/zalouser/setup-entry.ts", "source_location": "L1", "weight": 1.0}]}

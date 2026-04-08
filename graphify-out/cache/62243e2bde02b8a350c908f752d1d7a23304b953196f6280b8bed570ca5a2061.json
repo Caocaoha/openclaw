@@ -1,0 +1,1 @@
+{"nodes": [{"id": "service_cqnfi1sy", "label": "service-CqNFi1Sy.js", "file_type": "code", "source_file": "dist/service-CqNFi1Sy.js", "source_location": "L1"}], "edges": [{"source": "service_cqnfi1sy", "target": "service_do4b04e2_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/service-CqNFi1Sy.js", "source_location": "L1", "weight": 1.0}]}

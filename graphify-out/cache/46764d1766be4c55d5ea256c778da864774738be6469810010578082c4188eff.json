@@ -1,0 +1,1 @@
+{"nodes": [{"id": "gdscript_dt8gstyo", "label": "gdscript-Dt8GStYO.js", "file_type": "code", "source_file": "dist/gdscript-Dt8GStYO.js", "source_location": "L1"}], "edges": [{"source": "gdscript_dt8gstyo", "target": "gdscript_d1kq3jt7_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/gdscript-Dt8GStYO.js", "source_location": "L1", "weight": 1.0}]}

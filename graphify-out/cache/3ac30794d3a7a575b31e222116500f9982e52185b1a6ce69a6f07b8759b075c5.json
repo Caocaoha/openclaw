@@ -1,0 +1,1 @@
+{"nodes": [{"id": "transport_string_stdout", "label": "transport-string-stdout.ts", "file_type": "code", "source_file": "node_modules/pino/test/fixtures/ts/transport-string-stdout.ts", "source_location": "L1"}], "edges": []}

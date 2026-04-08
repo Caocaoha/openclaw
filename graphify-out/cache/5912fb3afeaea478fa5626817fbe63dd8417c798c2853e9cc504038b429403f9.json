@@ -1,0 +1,1 @@
+{"nodes": [{"id": "getendpointfromconfig_d", "label": "getEndpointFromConfig.d.ts", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock/node_modules/@smithy/middleware-endpoint/dist-types/adaptors/getEndpointFromConfig.d.ts", "source_location": "L1"}], "edges": []}

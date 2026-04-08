@@ -1,0 +1,1 @@
+{"nodes": [{"id": "config", "label": "config.js", "file_type": "code", "source_file": "dist-runtime/extensions/memory-lancedb/config.js", "source_location": "L1"}], "edges": [{"source": "config", "target": "config_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist-runtime/extensions/memory-lancedb/config.js", "source_location": "L2", "weight": 1.0}]}

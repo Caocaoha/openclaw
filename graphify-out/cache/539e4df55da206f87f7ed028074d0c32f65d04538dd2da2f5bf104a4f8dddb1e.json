@@ -1,0 +1,1 @@
+{"nodes": [{"id": "accounts_qy1lefl", "label": "accounts-qy1leFL-.js", "file_type": "code", "source_file": "dist/accounts-qy1leFL-.js", "source_location": "L1"}], "edges": [{"source": "accounts_qy1lefl", "target": "accounts_cqorcw33_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/accounts-qy1leFL-.js", "source_location": "L1", "weight": 1.0}]}

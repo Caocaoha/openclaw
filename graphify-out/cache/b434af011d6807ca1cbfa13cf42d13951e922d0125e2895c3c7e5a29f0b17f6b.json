@@ -1,0 +1,1 @@
+{"nodes": [{"id": "direct_dm", "label": "direct-dm.js", "file_type": "code", "source_file": "dist/plugin-sdk/direct-dm.js", "source_location": "L1"}], "edges": [{"source": "direct_dm", "target": "direct_dm_dzsr42oy_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/plugin-sdk/direct-dm.js", "source_location": "L1", "weight": 1.0}]}

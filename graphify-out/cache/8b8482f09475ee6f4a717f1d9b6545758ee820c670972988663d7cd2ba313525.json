@@ -1,0 +1,1 @@
+{"nodes": [{"id": "lanes_d", "label": "lanes.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/agents/lanes.d.ts", "source_location": "L1"}], "edges": [{"source": "lanes_d", "target": "lanes_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/plugin-sdk/src/agents/lanes.d.ts", "source_location": "L1", "weight": 1.0}]}

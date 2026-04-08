@@ -1,0 +1,1 @@
+{"nodes": [{"id": "names", "label": "names.ts", "file_type": "code", "source_file": "node_modules/ajv/lib/compile/names.ts", "source_location": "L1"}], "edges": [{"source": "names", "target": "codegen", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/ajv/lib/compile/names.ts", "source_location": "L1", "weight": 1.0}]}

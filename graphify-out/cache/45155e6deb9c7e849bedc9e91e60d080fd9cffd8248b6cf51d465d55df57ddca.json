@@ -1,0 +1,1 @@
+{"nodes": [{"id": "fromjson_d", "label": "fromJSON.d.ts", "file_type": "code", "source_file": "node_modules/postcss/lib/fromJSON.d.ts", "source_location": "L1"}], "edges": [{"source": "fromjson_d", "target": "postcss_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/postcss/lib/fromJSON.d.ts", "source_location": "L1", "weight": 1.0}]}

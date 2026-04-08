@@ -1,0 +1,1 @@
+{"nodes": [{"id": "loadsts", "label": "loadSts.js", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock-mantle/node_modules/@aws-sdk/credential-providers/dist-cjs/loadSts.js", "source_location": "L1"}], "edges": []}

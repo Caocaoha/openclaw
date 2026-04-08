@@ -1,0 +1,1 @@
+{"nodes": [{"id": "diffs_dv8czyrb", "label": "diffs-Dv8CzyRb.js", "file_type": "code", "source_file": "dist/diffs-Dv8CzyRb.js", "source_location": "L1"}], "edges": [{"source": "diffs_dv8czyrb", "target": "tmp_openclaw_dir_bobvquve_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/diffs-Dv8CzyRb.js", "source_location": "L1", "weight": 1.0}]}

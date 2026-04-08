@@ -1,0 +1,1 @@
+{"nodes": [{"id": "xlink", "label": "xlink.js", "file_type": "code", "source_file": "node_modules/property-information/lib/xlink.js", "source_location": "L1"}], "edges": [{"source": "xlink", "target": "create_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "node_modules/property-information/lib/xlink.js", "source_location": "L1", "weight": 1.0}]}

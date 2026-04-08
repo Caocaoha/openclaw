@@ -1,0 +1,1 @@
+{"nodes": [{"id": "ssh_d", "label": "ssh.d.ts", "file_type": "code", "source_file": "dist/plugin-sdk/src/agents/sandbox/ssh.d.ts", "source_location": "L1"}], "edges": [{"source": "ssh_d", "target": "backend_js", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "dist/plugin-sdk/src/agents/sandbox/ssh.d.ts", "source_location": "L1", "weight": 1.0}]}

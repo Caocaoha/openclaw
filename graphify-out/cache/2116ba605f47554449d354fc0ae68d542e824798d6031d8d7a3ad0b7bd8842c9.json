@@ -1,0 +1,1 @@
+{"nodes": [{"id": "transfer", "label": "transfer.js", "file_type": "code", "source_file": "dist/extensions/amazon-bedrock-mantle/node_modules/@aws-sdk/types/dist-es/transfer.js", "source_location": "L1"}], "edges": []}

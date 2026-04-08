@@ -1,0 +1,1 @@
+{"nodes": [{"id": "package", "label": "Package.swift", "file_type": "code", "source_file": "apps/macos/Package.swift", "source_location": "L1"}], "edges": [{"source": "package", "target": "packagedescription", "relation": "imports", "confidence": "EXTRACTED", "source_file": "apps/macos/Package.swift", "source_location": "L4", "weight": 1.0}]}
