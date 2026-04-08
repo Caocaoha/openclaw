@@ -611,7 +611,12 @@ export const agentHandlers: GatewayRequestHandlers = {
             key: requestedSessionKey,
             store,
           });
-          const merged = mergeSessionEntry(store[primaryKey], nextEntryPatch);
+          const merged = mergeSessionEntry(store[primaryKey], {
+            ...nextEntryPatch,
+            // Preserve label set by performGatewaySessionReset (e.g., "New Session")
+            // when the request itself does not carry a label value.
+            label: nextEntryPatch.label ?? store[primaryKey]?.label,
+          });
           store[primaryKey] = merged;
           return merged;
         });

@@ -66,6 +66,30 @@ function resolveExplicitSessionEndReason(
   return matchedResetTriggerLower === "/reset" ? "reset" : "new";
 }
 
+// Generate a deduplicated "New Session" label so /new sessions show a clean
+// default name in the sidebar instead of the compound session key. Walks the
+// store to avoid label collisions ("New Session", "New Session 2", ...).
+function generateNewSessionLabel(store: Record<string, SessionEntry>): string {
+  const existing = new Set<string>();
+  for (const e of Object.values(store)) {
+    const label = e?.label;
+    if (typeof label === "string" && label) {
+      existing.add(label);
+    }
+  }
+  const base = "New Session";
+  if (!existing.has(base)) {
+    return base;
+  }
+  for (let i = 2; i <= 100; i++) {
+    const candidate = `${base} ${i}`;
+    if (!existing.has(candidate)) {
+      return candidate;
+    }
+  }
+  return `${base} ${Date.now()}`;
+}
+
 function resolveSessionDefaultAccountId(params: {
   cfg: OpenClawConfig;
   channelRaw?: string;
@@ -685,6 +709,14 @@ export async function initSessionState(params: {
     sessionEntry.outputTokens = undefined;
     sessionEntry.estimatedCostUsd = undefined;
     sessionEntry.contextTokens = undefined;
+    // For /new (and any new session that has no inherited label) assign a
+    // fresh "New Session" label so the sidebar shows a clean name instead of
+    // the compound session key. Subagent/forked sessions keep their derived
+    // labels (displayName, parent metadata) untouched.
+    const isExplicitNewCommand = resetTriggered && matchedResetTriggerLower === "/new";
+    if (isExplicitNewCommand || !sessionEntry.label) {
+      sessionEntry.label = generateNewSessionLabel(sessionStore);
+    }
   }
   // When /new is triggered (preserve history mode), archive old session at compound key
   // and add backlinks to the new session entry.

@@ -58,6 +58,25 @@ function stripRuntimeModelState(entry?: SessionEntry): SessionEntry | undefined 
   };
 }
 
+function generateNewSessionLabel(store: Record<string, SessionEntry>): string {
+  const existing = new Set(
+    Object.values(store)
+      .map((e) => e?.label)
+      .filter((l): l is string => Boolean(l)),
+  );
+  const base = "New Session";
+  if (!existing.has(base)) {
+    return base;
+  }
+  for (let i = 2; i <= 100; i++) {
+    const candidate = `${base} ${i}`;
+    if (!existing.has(candidate)) {
+      return candidate;
+    }
+  }
+  return `${base} ${Date.now()}`; // fallback
+}
+
 export function archiveSessionTranscriptsForSession(params: {
   sessionId: string | undefined;
   storePath: string;
@@ -508,7 +527,7 @@ export async function performGatewaySessionReset(params: {
       spawnDepth: currentEntry?.spawnDepth,
       subagentRole: currentEntry?.subagentRole,
       subagentControlScope: currentEntry?.subagentControlScope,
-      label: currentEntry?.label,
+      label: params.preserveHistory ? generateNewSessionLabel(store) : currentEntry?.label,
       displayName: currentEntry?.displayName,
       channel: currentEntry?.channel,
       groupId: currentEntry?.groupId,
