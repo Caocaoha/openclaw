@@ -429,6 +429,7 @@ export type GatewaySessionRow = {
   contextTokens?: number;
   compactionCheckpointCount?: number;
   latestCompactionCheckpoint?: SessionCompactionCheckpoint;
+  previousSessionKey?: string;
 };
 
 export type SessionsListResult = SessionsListResultBase<GatewaySessionsDefaults, GatewaySessionRow>;

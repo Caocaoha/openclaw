@@ -32,6 +32,7 @@ import {
   type SlashCommandDef,
 } from "../chat/slash-commands.ts";
 import { isSttSupported, startStt, stopStt } from "../chat/speech.ts";
+import { renderSessionSidebar } from "../components/session-sidebar.ts";
 import { icons } from "../icons.ts";
 import { toSanitizedMarkdownHtml } from "../markdown.ts";
 import { normalizeLowercaseStringOrEmpty } from "../string-coerce.ts";
@@ -103,6 +104,15 @@ export type ChatProps = {
   onSplitRatioChange?: (ratio: number) => void;
   onChatScroll?: (event: Event) => void;
   basePath?: string;
+  sessionSidebarOpen?: boolean;
+  sessionSidebarOnOpen?: () => void;
+  sessionSidebarOnClose?: () => void;
+  sessionSidebarOnSessionSelect?: (key: string) => void;
+  sessionSidebarOnNewSession?: () => void;
+  sessionSidebarOnSearchChange?: (query: string) => void;
+  sessionSidebarOnRename?: (key: string, newName: string) => Promise<void>;
+  sessionSidebarOnDelete?: (key: string) => Promise<void>;
+  sessionSidebarLoading?: boolean;
 };
 
 const COMPACTION_TOAST_DURATION_MS = 5000;
@@ -958,6 +968,7 @@ export function renderChat(props: ChatProps) {
 
   const splitRatio = props.splitRatio ?? 0.6;
   const sidebarOpen = Boolean(props.sidebarOpen && props.onCloseSidebar);
+  const sessionSidebarOpen = Boolean(props.sessionSidebarOpen);
 
   const handleCodeBlockCopy = (e: Event) => {
     const btn = (e.target as HTMLElement).closest(".code-block-copy");
@@ -1178,6 +1189,27 @@ export function renderChat(props: ChatProps) {
       return;
     }
 
+    // Cmd+` / Ctrl+` for session sidebar toggle
+    if ((e.metaKey || e.ctrlKey) && e.key === "`") {
+      e.preventDefault();
+      if (props.sessionSidebarOpen) {
+        props.sessionSidebarOnClose?.();
+      } else {
+        props.sessionSidebarOnOpen?.();
+      }
+      return;
+    }
+
+    // Cmd+N / Ctrl+N for new session
+    if ((e.metaKey || e.ctrlKey) && e.key === "n" && !vs.slashMenuOpen) {
+      const target = e.target as HTMLElement;
+      if (target.tagName !== "TEXTAREA" && target.tagName !== "INPUT") {
+        e.preventDefault();
+        props.sessionSidebarOnNewSession?.();
+        return;
+      }
+    }
+
     // Send on Enter (without shift)
     if (e.key === "Enter" && !e.shiftKey) {
       if (e.isComposing || e.keyCode === 229) {
@@ -1227,35 +1259,62 @@ export function renderChat(props: ChatProps) {
         : nothing}
       ${renderSearchBar(requestUpdate)} ${renderPinnedSection(props, pinned, requestUpdate)}
 
-      <div class="chat-split-container ${sidebarOpen ? "chat-split-container--open" : ""}">
+      <div
+        class="chat-split-container ${sessionSidebarOpen || sidebarOpen
+          ? "chat-split-container--open"
+          : ""}"
+      >
         <div
           class="chat-main"
-          style="flex: ${sidebarOpen ? `0 0 ${splitRatio * 100}%` : "1 1 100%"}"
+          style="flex: ${sessionSidebarOpen || sidebarOpen
+            ? `0 0 ${splitRatio * 100}%`
+            : "1 1 100%"}"
         >
           ${thread}
         </div>
 
-        ${sidebarOpen
+        ${sessionSidebarOpen
           ? html`
               <resizable-divider
                 .splitRatio=${splitRatio}
                 @resize=${(e: CustomEvent) => props.onSplitRatioChange?.(e.detail.splitRatio)}
               ></resizable-divider>
               <div class="chat-sidebar">
-                ${renderMarkdownSidebar({
-                  content: props.sidebarContent ?? null,
-                  error: props.sidebarError ?? null,
-                  onClose: props.onCloseSidebar!,
-                  onViewRawText: () => {
-                    if (!props.sidebarContent || !props.onOpenSidebar) {
-                      return;
-                    }
-                    props.onOpenSidebar(`\`\`\`\n${props.sidebarContent}\n\`\`\``);
-                  },
+                ${renderSessionSidebar({
+                  sessions: props.sessions ?? null,
+                  activeSessionKey: props.sessionKey,
+                  onSessionSelect: (key) => props.sessionSidebarOnSessionSelect?.(key),
+                  onNewSession: () => props.sessionSidebarOnNewSession?.(),
+                  onClose: () => props.sessionSidebarOnClose?.(),
+                  loading: props.sessionSidebarLoading ?? false,
+                  searchQuery: "",
+                  sessionSidebarOnSearchChange: props.sessionSidebarOnSearchChange,
+                  sessionSidebarOnRename: props.sessionSidebarOnRename,
+                  sessionSidebarOnDelete: props.sessionSidebarOnDelete,
                 })}
               </div>
             `
-          : nothing}
+          : sidebarOpen
+            ? html`
+                <resizable-divider
+                  .splitRatio=${splitRatio}
+                  @resize=${(e: CustomEvent) => props.onSplitRatioChange?.(e.detail.splitRatio)}
+                ></resizable-divider>
+                <div class="chat-sidebar">
+                  ${renderMarkdownSidebar({
+                    content: props.sidebarContent ?? null,
+                    error: props.sidebarError ?? null,
+                    onClose: props.onCloseSidebar!,
+                    onViewRawText: () => {
+                      if (!props.sidebarContent || !props.onOpenSidebar) {
+                        return;
+                      }
+                      props.onOpenSidebar(`\`\`\`\n${props.sidebarContent}\n\`\`\``);
+                    },
+                  })}
+                </div>
+              `
+            : nothing}
       </div>
 
       ${props.queue.length

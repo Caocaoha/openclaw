@@ -92,6 +92,15 @@ export type AppViewState = {
   sidebarContent: string | null;
   sidebarError: string | null;
   splitRatio: number;
+  sessionSidebarOpen: boolean;
+  sessionSidebarOnSessionSelect?: (key: string) => void;
+  sessionSidebarOnOpen?: () => void;
+  sessionSidebarOnClose?: () => void;
+  sessionSidebarOnNewSession?: () => void;
+  sessionSidebarOnSearchChange?: (query: string) => void;
+  sessionSidebarOnRename?: (key: string, newName: string) => Promise<void>;
+  sessionSidebarOnDelete?: (key: string) => Promise<void>;
+  sessionSidebarLoading: boolean;
   scrollToBottom: (opts?: { smooth?: boolean }) => void;
   devicesLoading: boolean;
   devicesError: string | null;
@@ -413,4 +422,7 @@ export type AppViewState = {
     handleOpenSidebar: (content: string) => void;
     handleCloseSidebar: () => void;
     handleSplitRatioChange: (ratio: number) => void;
+    handleOpenSessionSidebar: () => void;
+    handleCloseSessionSidebar: () => void;
+    handleSessionSelectFromSidebar: (key: string) => void;
   };

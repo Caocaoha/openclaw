@@ -1912,6 +1912,15 @@ export function renderApp(state: AppViewState) {
               onOpenSidebar: (content: string) => state.handleOpenSidebar(content),
               onCloseSidebar: () => state.handleCloseSidebar(),
               onSplitRatioChange: (ratio: number) => state.handleSplitRatioChange(ratio),
+              // Session sidebar props
+              sessionSidebarOpen: state.sessionSidebarOpen,
+              sessionSidebarOnOpen: () => state.handleOpenSessionSidebar(),
+              sessionSidebarOnClose: () => state.handleCloseSessionSidebar(),
+              sessionSidebarOnSessionSelect: (key: string) =>
+                state.handleSessionSelectFromSidebar(key),
+              sessionSidebarOnNewSession: () =>
+                state.handleSendChat("/new", { restoreDraft: true }),
+              sessionSidebarLoading: state.sessionSidebarLoading,
               assistantName: state.assistantName,
               assistantAvatar: state.assistantAvatar,
               basePath: state.basePath ?? "",

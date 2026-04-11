@@ -192,6 +192,11 @@ export class OpenClawApp extends LitElement {
   @state() sidebarError: string | null = null;
   @state() splitRatio = this.settings.splitRatio;
 
+  // Session sidebar state
+  @state() sessionSidebarOpen = false;
+  @state() sessionSidebarSessions: import("./types.js").SessionsListResult | null = null;
+  @state() sessionSidebarLoading = false;
+
   @state() nodesLoading = false;
   @state() nodes: Array<Record<string, unknown>> = [];
   @state() devicesLoading = false;
@@ -791,6 +796,20 @@ export class OpenClawApp extends LitElement {
       this.sidebarError = null;
       this.sidebarCloseTimer = null;
     }, 200);
+  }
+
+  // Session sidebar handlers
+  handleOpenSessionSidebar() {
+    this.sessionSidebarOpen = true;
+  }
+
+  handleCloseSessionSidebar() {
+    this.sessionSidebarOpen = false;
+  }
+
+  handleSessionSelectFromSidebar(key: string) {
+    this.sessionKey = key;
+    this.sessionSidebarOpen = false;
   }
 
   handleSplitRatioChange(ratio: number) {
